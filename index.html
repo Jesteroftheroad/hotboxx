@@ -87,18 +87,19 @@
         }
 
         .menu-category-header {
-            border-bottom: 2px solid var(--hot-orange);
+            border-bottom: 3px solid var(--hot-orange);
             display: inline-block;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
         }
 
         .menu-item {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px dotted rgba(255,255,255,0.05);
-            padding-bottom: 0.25rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px dotted rgba(255,255,255,0.08);
+            padding-bottom: 0.5rem;
         }
         
         .bg-charcoal {
@@ -132,9 +133,34 @@
             transform: translateY(-3px);
         }
 
-        .combo-card {
-            background: #1a1a1a;
-            border-left: 4px solid var(--hot-orange);
+        /* Redesigned Combo Section Styles */
+        .combo-grid-item {
+            border: 1px solid #222;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: #0d0d0d;
+        }
+
+        .combo-grid-item:hover {
+            background: #111;
+            border-color: var(--hot-orange);
+            transform: translateY(-5px);
+            z-index: 10;
+        }
+
+        .combo-tag {
+            position: absolute;
+            top: 0;
+            left: 2.5rem;
+            transform: translateY(-50%);
+            background: var(--hot-orange);
+            color: white;
+            font-weight: 900;
+            font-size: 10px;
+            padding: 2px 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .signature-img {
@@ -143,13 +169,48 @@
             object-fit: cover;
             transition: transform 0.5s ease;
         }
+
+        /* Highlight Labels */
+        .item-label {
+            font-size: 9px;
+            background: white;
+            color: black;
+            padding: 2px 5px;
+            margin-left: 8px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        /* Spice dots */
+        .spice-dot { color: var(--hot-orange); letter-spacing: 1px; font-weight: bold; }
+
+        /* Print Layout Optimization */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
+            .bg-charcoal { background: white !important; }
+            section { page-break-inside: avoid; border: none !important; }
+            #full-spread { padding-top: 20px !important; }
+            .menu-item { border-bottom: 1px solid #ddd !important; padding-bottom: 4px !important; }
+            .text-[#FFB800], .text-[#FF4D00] { color: #d32f2f !important; }
+            .text-white\/40, .text-white\/60 { color: #555 !important; }
+            .font-heading { color: black !important; }
+            .print-header { display: block !important; text-align: center; border-bottom: 4px solid black; padding-bottom: 20px; margin-bottom: 40px; }
+            .menu-category-header { border-bottom: 2px solid black !important; }
+            .combo-grid-item { border: 1px solid #ccc !important; background: white !important; color: black !important; }
+            .combo-tag { background: black !important; color: white !important; }
+        }
+        
+        .print-header { display: none; }
     </style>
 </head>
 <body>
-    <div class="smoke-overlay"></div>
+    <div class="smoke-overlay no-print"></div>
 
     <!-- Nav -->
-    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 no-print">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-heading text-3xl text-[#FF4D00]">HOTBOXX</div>
             <div class="hidden md:flex gap-8 text-sm uppercase font-bold tracking-widest">
@@ -163,7 +224,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
+    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 no-print">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20 grayscale"></div>
         <div class="absolute inset-0 bg-fire-gradient"></div>
         
@@ -179,7 +240,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-24 px-6 relative bg-black">
+    <section id="about" class="py-24 px-6 relative bg-black no-print">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="font-marker text-4xl text-[#FF4D00] mb-6">Born in Silchar. Raised on Heat.</h2>
             <p class="text-2xl md:text-3xl font-light leading-relaxed">
@@ -188,100 +249,103 @@
         </div>
     </section>
 
-    <div class="section-divider"></div>
+    <div class="section-divider no-print"></div>
 
-    <!-- Signatures -->
-    <section id="menu" class="py-24 px-6 bg-[#0a0a0a]">
+    <!-- Signatures Section -->
+    <section id="menu" class="py-24 px-6 bg-[#0a0a0a] no-print">
         <div class="max-w-7xl mx-auto">
-            <h2 class="font-heading text-6xl mb-12 text-center">THE SIGNATURES</h2>
+            <h2 class="font-heading text-6xl mb-12 text-center tracking-tighter">THE SIGNATURES</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Signature 1 -->
                 <div class="food-card p-6 rounded-lg group">
                     <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img 
-                            src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                            alt="Tandoori Chicken" 
-                            class="signature-img group-hover:scale-110"
-                            onerror="this.src='https://placehold.co/400x400/151515/FF4D00?text=Tandoori+Chicken'"
-                         >
-                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-black font-bold px-2 py-1 text-sm rotate-12 shadow-lg">BESTSELLER</div>
+                         <img src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tandoori Chicken" class="signature-img group-hover:scale-110">
+                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-black font-bold px-2 py-1 text-sm rotate-12 shadow-lg tracking-tighter">HOUSE FAVOURITE</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase">TANDOORI CHICKEN</h3>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">TANDOORI CHICKEN</h3>
                     <p class="text-white/60 mb-4 text-sm">Slow-smoked in the pit. Infused with 12 secret spices.</p>
                 </div>
-                <!-- Signature 2 -->
                 <div class="food-card p-6 rounded-lg group">
                     <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img 
-                            src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                            alt="Chicken Tikka" 
-                            class="signature-img group-hover:scale-110"
-                            onerror="this.src='https://placehold.co/400x400/151515/FF4D00?text=Chicken+Tikka'"
-                         >
-                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-2 py-1 text-sm -rotate-12 shadow-lg">PIT SMOKED</div>
+                         <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chicken Tikka" class="signature-img group-hover:scale-110">
+                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-2 py-1 text-sm -rotate-12 shadow-lg tracking-tighter">CHEF'S PICK</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase">CHICKEN TIKKA</h3>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">CHICKEN TIKKA</h3>
                     <p class="text-white/60 mb-4 text-sm">Juicy chunks, charred to perfection. No mercy for hunger.</p>
                 </div>
-                <!-- Signature 3 -->
                 <div class="food-card p-6 rounded-lg group">
                     <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img 
-                            src="https://images.unsplash.com/photo-1585109649139-366815a0d713?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                            alt="Chilli Potato Fries" 
-                            class="signature-img group-hover:scale-110"
-                            onerror="this.src='https://placehold.co/400x400/151515/FF4D00?text=Potato+Fries'"
-                         >
-                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-2 py-1 text-sm rotate-6 shadow-lg">LOADED</div>
+                         <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chilli Potato Fries" class="signature-img group-hover:scale-110">
+                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-2 py-1 text-sm rotate-6 shadow-lg tracking-tighter">CROWD FAVOURITE</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase">CHILLI POTATO FRIES</h3>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">CHILLI POTATO FRIES</h3>
                     <p class="text-white/60 mb-4 text-sm">Crispy, golden, tossed in heat. Street-approved chaos.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FULL SPREAD -->
+    <!-- FULL SPREAD & COMBO SECTION -->
     <section id="full-spread" class="py-24 px-6 bg-charcoal relative border-y border-white/5">
         <div class="max-w-7xl mx-auto">
+            
+            <!-- Print Only Brand Header -->
+            <div class="print-header">
+                <h1 class="font-heading text-6xl text-black">HOTBOXX</h1>
+                <p class="font-marker text-2xl text-black">Smoked. Fried. Certified.</p>
+                <p class="text-sm mt-2">Rangirkhari point, Silchar | Ph: 8876520650</p>
+            </div>
+
             <div class="flex flex-col items-center mb-20 text-center">
-                <h2 class="font-heading text-7xl md:text-8xl mb-4 text-white uppercase">THE FULL SPREAD</h2>
-                <div class="inline-block border-b-2 border-[#FF4D00] pb-2">
-                    <p class="font-marker text-xl md:text-3xl text-[#FF4D00] px-4">Choose your weapon.</p>
+                <h2 class="font-heading text-7xl md:text-8xl mb-4 text-white uppercase no-print tracking-tighter">THE FULL SPREAD</h2>
+                <div class="flex flex-col items-center gap-8">
+                    <div class="inline-block border-b-2 border-[#FF4D00] pb-2 no-print">
+                        <p class="font-marker text-xl md:text-3xl text-[#FF4D00] px-4 italic">Choose your weapon.</p>
+                    </div>
+                    <!-- Improved Download Button -->
+                    <button id="downloadBtn" class="no-print btn-download bg-white text-black px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-[#FF4D00] hover:text-white transition-all flex items-center gap-3 rounded-full border-4 border-black group">
+                        <svg class="w-5 h-5 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Save Menu as PDF
+                    </button>
+                    <p class="no-print text-[10px] text-white/30 uppercase font-bold tracking-widest">Select "Save as PDF" in the destination field of the print window.</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-24">
+            <!-- MENU GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-32">
                 
                 <!-- TANDOOR & GRILL -->
                 <div>
-                    <h3 class="menu-category-header font-heading text-3xl text-white">🍗 TANDOOR & GRILL</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Straight from the fire. No shortcuts.</p>
-                    <div class="space-y-6">
+                    <h3 class="menu-category-header font-heading text-4xl text-white">TANDOOR & GRILL</h3>
+                    <div class="space-y-4">
                         <div>
-                            <div class="menu-item"><span class="font-bold">Tandoori Chicken (Half/Full)</span> <span class="text-[#FFB800] font-bold">₹160/₹280</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Classic clay-oven roast, smoky & juicy 🔥🔥</p>
+                            <div class="menu-item">
+                                <span class="font-bold">Tandoori Chicken (Half/Full)<span class="item-label">House Favourite</span></span> 
+                                <span class="text-[#FFB800] font-bold">₹160/₹280</span>
+                            </div>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Clay-oven roast, smoky finish <span class="spice-dot">••</span></p>
                         </div>
                         <div>
-                            <div class="menu-item"><span class="font-bold">Chicken Tikka</span> <span class="text-[#FFB800] font-bold">₹110</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Charred cubes, bold masala punch 🔥🔥</p>
+                            <div class="menu-item">
+                                <span class="font-bold">Chicken Tikka<span class="item-label">Chef's Pick</span></span> 
+                                <span class="text-[#FFB800] font-bold">₹110</span>
+                            </div>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Charred cubes, bold masala <span class="spice-dot">••</span></p>
                         </div>
                         <div>
                             <div class="menu-item"><span class="font-bold">Reshmi Kebab</span> <span class="text-[#FFB800] font-bold">₹110</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Soft, creamy, dangerously addictive 🔥</p>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Soft, creamy blend <span class="spice-dot">•</span></p>
                         </div>
                         <div>
                             <div class="menu-item"><span class="font-bold">Chicken Hariyali</span> <span class="text-[#FFB800] font-bold">₹110</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Green heat, fresh herbs, clean burn 🔥🔥</p>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Green heat, fresh herbs <span class="spice-dot">••</span></p>
                         </div>
                         <div>
                             <div class="menu-item"><span class="font-bold">Afghani Tikka</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Rich, smoky, melt-in-mouth 🔥</p>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Rich, smoky, melt-in-mouth <span class="spice-dot">•</span></p>
                         </div>
                     </div>
 
-                    <h3 class="menu-category-header font-heading text-3xl text-white mt-16">🌯 ROLLS & WRAPS</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Wrapped for your walk.</p>
+                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16">ROLLS & WRAPS</h3>
                     <div class="space-y-4">
                         <div class="menu-item"><span class="font-bold">Chicken Roll</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
                         <div class="menu-item"><span class="font-bold">Egg Roll</span> <span class="text-[#FFB800] font-bold">₹60</span></div>
@@ -291,55 +355,59 @@
 
                 <!-- FRIED FAVOURITES & MOMOS -->
                 <div>
-                    <h3 class="menu-category-header font-heading text-3xl text-white">🍟 FRIED FAVOURITES</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Crunch first. Chaos later.</p>
-                    <div class="space-y-5">
-                        <div class="menu-item"><span class="font-bold">Chicken Pakoda (4/8 pcs)</span> <span class="text-[#FFB800] font-bold">₹70/₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Fry (2 pcs) 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹150</span></div>
-                        <div class="menu-item"><span class="font-bold">Leg Fry (1 pc) 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Popcorn 🔥</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
-                        <div class="menu-item"><span class="font-bold">Fish Finger (4 pcs) 🔥</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
+                    <h3 class="menu-category-header font-heading text-4xl text-white">FRIED FAVOURITES</h3>
+                    <div class="space-y-4">
+                        <div class="menu-item"><span class="font-bold">Chicken Pakoda (4/8 pcs)</span> <span class="text-[#FFB800] font-bold">₹70/₹130</span></div>
+                        <div class="menu-item"><span class="font-bold">Hot Wings (4 pcs)</span> <span class="text-[#FFB800] font-bold">₹89</span></div>
+                        <div class="menu-item"><span class="font-bold">Peri-peri Wings (4 pcs)</span> <span class="text-[#FFB800] font-bold">₹89</span></div>
+                        <div class="menu-item"><span class="font-bold">Big Bucket Chicken (1 Whole)</span> <span class="text-[#FFB800] font-bold">₹349</span></div>
+                        <div class="menu-item"><span class="font-bold">Chicken Strips (4 pcs)</span> <span class="text-[#FFB800] font-bold">₹199</span></div>
+                        <div class="menu-item"><span class="font-bold">Chicken Popcorn (Reg/Peri-Peri)</span> <span class="text-[#FFB800] font-bold">₹89</span></div>
+                        <div class="menu-item"><span class="font-bold">Fish Finger (4 pcs)</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
                         <div class="menu-item"><span class="font-bold">Classic Fries</span> <span class="text-[#FFB800] font-bold">₹60</span></div>
-                        <div class="menu-item"><span class="font-bold">Chilli Potato Fries 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹80</span></div>
-                        <div class="menu-item"><span class="font-bold">Poutine (Canadian Style) 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
+                        <div class="menu-item"><span class="font-bold">Chilli Potato Fries</span> <span class="text-[#FFB800] font-bold">₹80</span></div>
+                        <div class="menu-item"><span class="font-bold">Poutine (Canadian Style)</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
                     </div>
 
-                    <h3 class="menu-category-header font-heading text-3xl text-white mt-16">🥟 MOMOS</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Small size. Big attitude.</p>
+                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16">MOMOS</h3>
                     <div class="space-y-4">
                         <div class="menu-item"><span class="font-bold">Steamed Momos</span> <span class="text-[#FFB800] font-bold">₹50</span></div>
-                        <div class="menu-item"><span class="font-bold">Fried Momos 🔥</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
-                        <div class="menu-item"><span class="font-bold">Gravy Momos 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹100</span></div>
+                        <div class="menu-item"><span class="font-bold">Fried Momos</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
+                        <div class="menu-item"><span class="font-bold">Gravy Momos</span> <span class="text-[#FFB800] font-bold">₹100</span></div>
                     </div>
                 </div>
 
                 <!-- RICE, NOODLES & GRAVY -->
                 <div>
-                    <h3 class="menu-category-header font-heading text-3xl text-white">🍜 RICE & NOODLES</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Wok heat. Street speed.</p>
+                    <h3 class="menu-category-header font-heading text-4xl text-white">RICE & NOODLES</h3>
                     <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Veg Fried Rice</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
+                        <div class="menu-item"><span class="font-bold">Veg Fried Rice</span> <span class="text-[#FFB800] font-bold">₹79</span></div>
                         <div class="menu-item"><span class="font-bold">Chicken Fried Rice</span> <span class="text-[#FFB800] font-bold">₹110</span></div>
-                        <div class="menu-item"><span class="font-bold">Szechuan Fried Rice 🔥🔥🔥</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Veg Noodles</span> <span class="text-[#FFB800] font-bold">₹90</span></div>
+                        <div>
+                            <div class="menu-item">
+                                <span class="font-bold">Szechuan Fried Rice<span class="item-label">Crowd Favourite</span></span> 
+                                <span class="text-[#FFB800] font-bold">₹120</span>
+                            </div>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Serious wok heat <span class="spice-dot">•••</span></p>
+                        </div>
+                        <div class="menu-item"><span class="font-bold">Veg Noodles</span> <span class="text-[#FFB800] font-bold">₹79</span></div>
                         <div class="menu-item"><span class="font-bold">Chicken Noodles</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Gravy Noodles 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
+                        <div class="menu-item"><span class="font-bold">Gravy Noodles</span> <span class="text-[#FFB800] font-bold">₹130</span></div>
                     </div>
 
-                    <h3 class="menu-category-header font-heading text-3xl text-white mt-16">🍛 GRAVY DISHES</h3>
-                    <p class="text-xs uppercase tracking-widest text-[#FFB800] mb-6 font-bold">Sticky, spicy, serious business.</p>
+                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16">GRAVY DISHES</h3>
                     <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Chilli Chicken 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Manchurian 🔥🔥</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
-                        <div class="menu-item"><span class="font-bold">Veg Manchurian</span> <span class="text-[#FFB800] font-bold">₹100</span></div>
+                        <div class="menu-item"><span class="font-bold">Chilli Chicken</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
+                        <div class="menu-item"><span class="font-bold">Chicken Manchurian</span> <span class="text-[#FFB800] font-bold">₹120</span></div>
+                        <div class="menu-item"><span class="font-bold">Veg Manchurian</span> <span class="text-[#FFB800] font-bold">₹99</span></div>
                         <div>
                             <div class="menu-item"><span class="font-bold">Chicken Bharta</span> <span class="text-[#FFB800] font-bold">₹140</span></div>
-                            <p class="text-[10px] text-white/40 uppercase">Smoky mash, proper comfort heat 🔥🔥</p>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Smoky comfort mash <span class="spice-dot">••</span></p>
                         </div>
                     </div>
 
-                    <h3 class="menu-category-header font-heading text-3xl text-white mt-16">🧃 DRINKS</h3>
-                    <div class="space-y-3">
+                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16">DRINKS</h3>
+                    <div class="space-y-4">
                         <div class="menu-item"><span class="font-bold">Lemon / Jaljeera Soda</span> <span class="text-[#FFB800] font-bold">₹40</span></div>
                         <div class="menu-item"><span class="font-bold">Coke / Sprite</span> <span class="text-[#FFB800] font-bold">₹30</span></div>
                         <div class="menu-item"><span class="font-bold">Mineral Water</span> <span class="text-[#FFB800] font-bold">₹10</span></div>
@@ -347,50 +415,74 @@
                 </div>
             </div>
 
-            <!-- COMBO SPECIALS SECTION -->
-            <div class="mt-20 border-t border-white/10 pt-20">
-                <div class="text-center mb-12">
-                    <h2 class="font-heading text-5xl md:text-6xl text-[#FF4D00] mb-2">💥 COMBO SPECIALS</h2>
-                    <p class="font-marker text-xl text-white/60 italic">Hot. Filling. No thinking required.</p>
+            <!-- REDESIGNED COMBO SPECIALS SECTION -->
+            <div id="combos" class="mt-20 pt-20 no-print">
+                <div class="text-center mb-16">
+                    <h2 class="font-heading text-6xl md:text-8xl text-white mb-2 uppercase tracking-tighter">COMBO SPECIALS</h2>
+                    <p class="font-marker text-2xl text-[#FF4D00] italic">Confident stacks. Serious value.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="combo-card p-6 group hover:bg-[#222] transition-all">
-                        <h4 class="font-heading text-2xl mb-2 text-white">🔥 HOTBOXX COMBO</h4>
-                        <p class="text-sm text-white/60 mb-4">Chicken Tikka + Fries + Drink</p>
-                        <span class="text-2xl font-bold text-[#FFB800]">₹180</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-white/10 border-t border-white/10">
+                    <div class="combo-grid-item border-r border-b border-white/10">
+                        <span class="combo-tag">Best Value</span>
+                        <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">HOTBOXX<br>COMBO</h4>
+                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Tikka + Fries + Drink</p>
+                        <div class="flex items-end justify-between">
+                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹180</span>
+                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">01</span>
+                        </div>
                     </div>
-                    <div class="combo-card p-6 group hover:bg-[#222] transition-all">
-                        <h4 class="font-heading text-2xl mb-2 text-white">🔥 FRIED FEAST</h4>
-                        <p class="text-sm text-white/60 mb-4">Chicken Fry + Pakoda + Fries + Drink</p>
-                        <span class="text-2xl font-bold text-[#FFB800]">₹190</span>
+
+                    <div class="combo-grid-item border-r border-b border-white/10">
+                        <span class="combo-tag">Hungry Mode</span>
+                        <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">FRIED<br>FEAST</h4>
+                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Fry + Pakoda + Fries + Drink</p>
+                        <div class="flex items-end justify-between">
+                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹190</span>
+                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">02</span>
+                        </div>
                     </div>
-                    <div class="combo-card p-6 group hover:bg-[#222] transition-all">
-                        <h4 class="font-heading text-2xl mb-2 text-white">🔥 MOMO MEAL</h4>
-                        <p class="text-sm text-white/60 mb-4">Fried Momos + Fries + Drink</p>
-                        <span class="text-2xl font-bold text-[#FFB800]">₹160</span>
+
+                    <div class="combo-grid-item border-r border-b border-white/10">
+                        <span class="combo-tag">Quick Fix</span>
+                        <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">MOMO<br>MEAL</h4>
+                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Fried Momos + Fries + Drink</p>
+                        <div class="flex items-end justify-between">
+                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹160</span>
+                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">03</span>
+                        </div>
                     </div>
-                    <div class="combo-card p-6 group hover:bg-[#222] transition-all">
-                        <h4 class="font-heading text-2xl mb-2 text-white">🔥 CANADIAN BITE</h4>
-                        <p class="text-sm text-white/60 mb-4">Gravy Fries + Popcorn + Drink</p>
-                        <span class="text-2xl font-bold text-[#FFB800]">₹200</span>
+
+                    <div class="combo-grid-item border-r border-b border-white/10">
+                        <span class="combo-tag" style="background: var(--hot-red);">New Item</span>
+                        <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">MIDNIGHT<br>MESS</h4>
+                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Gravy Fries + Popcorn + Drink</p>
+                        <div class="flex items-end justify-between">
+                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹200</span>
+                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">04</span>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="mt-16 text-center">
+                    <p class="font-marker text-2xl text-white/30 italic uppercase tracking-widest">“MIDNIGHT MESS: WORTH THE CHAOS.”</p>
                 </div>
             </div>
 
-            <div class="text-center py-6 border-y border-white/10 mt-20">
-                <span class="uppercase font-bold tracking-widest text-sm mr-4">Pick Your Heat:</span>
-                <span class="inline-flex gap-6 font-marker text-lg">
-                    <span>🌶️ Mild</span>
-                    <span class="text-[#FF4D00]">🌶️🌶️ Medium</span>
-                    <span class="text-[#D72600]">🌶️🌶️🌶️ Smoking Hot</span>
+            <!-- SPICE METER -->
+            <div class="text-center py-10 border-y border-white/10 mt-24 no-print">
+                <span class="uppercase font-bold tracking-[0.4em] text-[10px] text-white/30 mr-8">SPICE INDEX:</span>
+                <span class="inline-flex flex-wrap justify-center gap-10 font-bold text-xs uppercase tracking-widest">
+                    <span class="flex items-center gap-3"><span class="spice-dot">•</span> MILD</span>
+                    <span class="flex items-center gap-3 text-[#FF4D00]"><span class="spice-dot">••</span> MEDIUM</span>
+                    <span class="flex items-center gap-3 text-[#D72600]"><span class="spice-dot">•••</span> SMOKING HOT</span>
                 </span>
             </div>
         </div>
     </section>
 
     <!-- FOOTER SECTION -->
-    <footer id="location" class="bg-[#0a0a0a] pt-24 pb-12 border-t border-white/10 relative">
+    <footer id="location" class="bg-[#0a0a0a] pt-24 pb-12 border-t border-white/10 relative no-print">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 
@@ -404,7 +496,7 @@
                         Silchar's original destination for pit-smoked chicken and fiery street staples. We bring the heat, you bring the hunger.
                     </p>
                     <div class="flex gap-4">
-                        <a href="#" class="social-btn" aria-label="Instagram">
+                        <a href="https://www.instagram.com/hotboxx_silchar/" target="_blank" class="social-btn" aria-label="Instagram">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                         <a href="#" class="social-btn" aria-label="Facebook">
@@ -415,18 +507,19 @@
 
                 <!-- Quick Links -->
                 <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Navigation</h4>
-                    <ul class="flex flex-col gap-3 font-bold text-sm uppercase tracking-wider">
+                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Navigation</h4>
+                    <ul class="flex flex-col gap-3 font-bold text-sm uppercase tracking-widest">
                         <li><a href="#menu" class="footer-link">The Signature Goods</a></li>
                         <li><a href="#full-spread" class="footer-link">Full Spread Menu</a></li>
                         <li><a href="#about" class="footer-link">The Hotboxx Vibe</a></li>
+                        <li><a href="javascript:void(0)" onclick="window.print()" class="footer-link">Save Menu as PDF</a></li>
                     </ul>
                 </div>
 
                 <!-- Hours -->
                 <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Opening Hours</h4>
-                    <div class="space-y-4 text-sm font-bold">
+                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Opening Hours</h4>
+                    <div class="space-y-4 text-[10px] font-bold tracking-[2px] uppercase">
                         <div class="flex justify-between text-white/60">
                             <span>Mon — Thu</span>
                             <span class="text-white">05:00 PM - 11:00 PM</span>
@@ -444,8 +537,8 @@
 
                 <!-- Contact & Location -->
                 <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Drop By</h4>
-                    <div class="space-y-4 text-sm font-bold">
+                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Drop By</h4>
+                    <div class="space-y-4 text-[10px] font-bold tracking-[2px] uppercase">
                         <div class="flex gap-3">
                             <span class="text-[#FF4D00] text-lg">📍</span>
                             <p class="text-white/80">Rangirkhari point,<br>Silchar, Assam 788005</p>
@@ -456,7 +549,7 @@
                         </div>
                         <div class="flex gap-3 items-center">
                             <span class="text-[#FF4D00] text-lg">✉️</span>
-                            <a href="mailto:HOTBOXX@gmail.com" class="text-white hover:text-[#FF4D00] transition-colors uppercase">HOTBOXX@gmail.com</a>
+                            <a href="mailto:HOTBOXX@gmail.com" class="text-white hover:text-[#FF4D00] transition-colors">HOTBOXX@gmail.com</a>
                         </div>
                     </div>
                 </div>
@@ -480,6 +573,7 @@
     </footer>
 
     <script>
+        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if (this.getAttribute('href').startsWith('#')) {
@@ -490,6 +584,11 @@
                     }
                 }
             });
+        });
+
+        // Reliable Print Trigger
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            window.print();
         });
     </script>
 </body>
