@@ -24,68 +24,79 @@
         }
 
         .font-heading { font-family: 'Bangers', cursive; letter-spacing: 2px; }
-        .font-marker { font-family: 'Permanent Marker', cursive; }
+        .font-marker  { font-family: 'Permanent Marker', cursive; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--hot-orange); }
+
+        /* Hide scrollbar utility */
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Texture & Backgrounds */
+        .smoke-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.15;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+
+        .grunge-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            opacity: 0.3; pointer-events: none;
+        }
 
         .bg-fire-gradient {
             background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(215,38,0,0.2) 100%);
         }
 
+        /* FIX: bg-charcoal was undefined */
+        .bg-charcoal { background-color: #111111; }
+
+        /* Animations */
+        @keyframes flame {
+            0%, 100% { text-shadow: 0 0 10px var(--hot-orange); }
+            50%       { text-shadow: 0 0 30px var(--hot-red), 0 0 40px var(--hot-orange); }
+        }
+        .animate-flame { animation: flame 2s infinite; }
+
+        /* FIX: animate-slide-in was undefined */
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(20px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in { animation: slide-in 0.25s ease-out; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* FIX: btn-fire was undefined */
         .btn-fire {
             background: var(--hot-orange);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
             color: white;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            transition: background 0.3s ease;
         }
+        .btn-fire:hover { background: var(--hot-red); }
 
-        .btn-fire:hover {
-            transform: scale(1.05) rotate(-1deg);
-            background: var(--hot-yellow);
-            color: black;
-            box-shadow: 0 0 20px var(--hot-orange);
-        }
-
+        /* FIX: food-card was undefined */
         .food-card {
-            background: #151515;
-            border: 2px solid #222;
-            transition: border-color 0.3s ease;
+            background: #0d0d0d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .food-card:hover {
-            border-color: var(--hot-orange);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(255, 77, 0, 0.12);
         }
 
-        .smoke-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.3;
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-        }
-
-        @keyframes flame {
-            0% { text-shadow: 0 0 10px var(--hot-orange); }
-            50% { text-shadow: 0 0 30px var(--hot-red), 0 0 40px var(--hot-orange); }
-            100% { text-shadow: 0 0 10px var(--hot-orange); }
-        }
-
-        .animate-flame {
-            animation: flame 2s infinite;
-        }
-
-        .section-divider {
-            height: 4px;
-            background: repeating-linear-gradient(
-                45deg,
-                var(--hot-orange),
-                var(--hot-orange) 10px,
-                #000 10px,
-                #000 20px
-            );
-        }
-
+        /* Menu Elements */
         .menu-category-header {
             border-bottom: 3px solid var(--hot-orange);
             display: inline-block;
@@ -94,470 +105,742 @@
         }
 
         .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1.25rem;
-            border-bottom: 1px dotted rgba(255,255,255,0.08);
-            padding-bottom: 0.5rem;
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 1.25rem; border-bottom: 1px dotted rgba(255,255,255,0.08);
+            padding-bottom: 0.5rem; transition: all 0.2s ease;
+            cursor: pointer;
         }
-        
-        .bg-charcoal {
-            background-color: #121212;
-            background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+        .menu-item:hover { color: var(--hot-orange); border-bottom-color: var(--hot-orange); }
+
+        .item-label {
+            font-size: 9px; background: white; color: black;
+            padding: 2px 5px; margin-left: 8px;
+            font-weight: 900; letter-spacing: 0.5px;
+            vertical-align: middle; text-transform: uppercase;
         }
 
-        .footer-link {
-            transition: all 0.2s ease;
-            color: rgba(255,255,255,0.6);
+        /* FIX: spice-dot was undefined */
+        .spice-dot { color: var(--hot-red); font-size: 14px; }
+
+        /* Combo Cards */
+        .combo-grid-item {
+            border: 1px solid #222; padding: 2.5rem;
+            position: relative; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: #0d0d0d; cursor: pointer;
         }
-        .footer-link:hover {
-            color: var(--hot-orange);
-            padding-left: 5px;
+        .combo-grid-item:hover {
+            background: #111; border-color: var(--hot-orange);
+            transform: translateY(-5px); z-index: 10;
+            box-shadow: 0 15px 40px rgba(255, 77, 0, 0.15);
         }
-        
-        .social-btn {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 4px;
+        .combo-tag {
+            position: absolute; top: 0; left: 2.5rem;
+            transform: translateY(-50%); background: var(--hot-orange);
+            color: white; font-weight: 900; font-size: 10px;
+            padding: 2px 10px; text-transform: uppercase; letter-spacing: 2px;
+        }
+
+        /* Sidebar Cart */
+        #cart-panel {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 400px;
+            height: 100%; background: #0a0a0a; z-index: 1000;
+            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            border-left: 1px solid #222; display: flex; flex-direction: column;
+        }
+        #cart-panel.open { transform: translateX(0); }
+        .cart-blur {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px); z-index: 999; display: none;
+        }
+        .cart-blur.open { display: block; }
+
+        /* Toast notification */
+        #toast {
+            position: fixed; bottom: 6rem; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: var(--hot-orange); color: white;
+            padding: 0.6rem 1.4rem; font-weight: 900; font-size: 12px;
+            letter-spacing: 2px; text-transform: uppercase; z-index: 2000;
+            opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Floating Action Button */
+        .sticky-fab {
+            position: fixed; bottom: 2rem; right: 2rem;
+            z-index: 100; opacity: 0; transform: translateY(20px);
             transition: all 0.3s ease;
         }
-        .social-btn:hover {
-            border-color: var(--hot-orange);
-            color: var(--hot-orange);
-            transform: translateY(-3px);
-        }
+        .sticky-fab.visible { opacity: 1; transform: translateY(0); }
 
-        /* Redesigned Combo Section Grid */
-        .combo-grid-item {
-            border: 1px solid #222;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            background: #0d0d0d;
+        /* Tab Buttons */
+        .tab-btn {
+            padding: 0.75rem 1.5rem; font-weight: bold; border-bottom: 2px solid transparent;
+            color: #666; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            white-space: nowrap;
         }
+        .tab-btn.active { color: var(--hot-orange); border-bottom-color: var(--hot-orange); }
 
-        .combo-grid-item:hover {
-            background: #111;
-            border-color: var(--hot-orange);
-            transform: translateY(-5px);
-            z-index: 10;
+        .delivery-pill {
+            background: #151515; border: 1px solid #333; padding: 0.75rem 1.5rem;
+            border-radius: 99px; transition: all 0.3s; display: flex; align-items: center; gap: 0.75rem;
         }
+        .delivery-pill:hover { border-color: var(--hot-orange); transform: scale(1.05); }
 
-        .combo-tag {
-            position: absolute;
-            top: 0;
-            left: 2rem;
-            transform: translateY(-50%);
-            background: var(--hot-orange);
-            color: white;
-            font-weight: 900;
-            font-size: 9px;
-            padding: 2px 8px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+        /* Mobile bottom nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(10,10,10,0.97); border-top: 1px solid #222;
+            z-index: 90; display: flex; justify-content: space-around; align-items: center;
+            padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
         }
-
-        .signature-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        .bottom-nav a, .bottom-nav button {
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            color: #555; font-size: 8px; font-weight: 900; letter-spacing: 1px;
+            text-transform: uppercase; padding: 0.25rem 0.75rem; transition: color 0.2s;
+            background: none; border: none; cursor: pointer;
         }
+        .bottom-nav a:hover, .bottom-nav button:hover { color: var(--hot-orange); }
+        .bottom-nav .nav-icon { font-size: 18px; line-height: 1; }
+        /* push page content above bottom nav on mobile */
+        @media (max-width: 767px) { body { padding-bottom: 64px; } }
 
-        /* Highlight Labels */
-        .item-label {
-            font-size: 9px;
-            background: white;
-            color: black;
-            padding: 2px 5px;
-            margin-left: 8px;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            vertical-align: middle;
-            text-transform: uppercase;
+        /* Deal of the Month */
+        .deal-card {
+            background: #0d0d0d; border: 1px solid #222;
+            padding: 2rem; position: relative; overflow: hidden;
+            transition: all 0.3s ease;
         }
-
-        /* Spice dots */
-        .spice-dot { color: var(--hot-orange); letter-spacing: 1px; font-weight: bold; }
-
-        /* Print Layout Optimization */
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
-            .bg-charcoal { background: white !important; }
-            section { page-break-inside: avoid; border: none !important; }
-            #full-spread { padding-top: 20px !important; }
-            .menu-item { border-bottom: 1px solid #ddd !important; padding-bottom: 4px !important; }
-            .text-[#FFB800], .text-[#FF4D00] { color: #d32f2f !important; }
-            .text-white\/40, .text-white\/60 { color: #555 !important; }
-            .font-heading { color: black !important; }
-            .print-header { display: block !important; text-align: center; border-bottom: 4px solid black; padding-bottom: 20px; margin-bottom: 40px; }
-            .menu-category-header { border-bottom: 2px solid black !important; }
-            .combo-grid-item { border: 1px solid #ccc !important; background: white !important; color: black !important; }
-            .combo-tag { background: black !important; color: white !important; }
+        .deal-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,77,0,0.06) 0%, transparent 60%);
+            pointer-events: none;
         }
-        
-        .print-header { display: none; }
+        .deal-card:hover { border-color: var(--hot-orange); transform: translateY(-3px); }
+        .deal-badge {
+            display: inline-block; background: var(--hot-yellow); color: black;
+            font-size: 9px; font-weight: 900; letter-spacing: 2px;
+            text-transform: uppercase; padding: 3px 10px; margin-bottom: 1rem;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,184,0,0.4); }
+            50%       { box-shadow: 0 0 20px 4px rgba(255,184,0,0.15); }
+        }
+        .deal-glow { animation: pulse-glow 2.5s infinite; }
+
+        /* Review cards */
+        .review-card {
+            background: #0d0d0d; border: 1px solid #1a1a1a;
+            padding: 1.75rem; position: relative;
+        }
+        .review-card::before {
+            content: '"'; position: absolute; top: 1rem; left: 1.25rem;
+            font-family: 'Bangers', cursive; font-size: 5rem; color: var(--hot-orange);
+            opacity: 0.12; line-height: 1; pointer-events: none;
+        }
+        .stars { color: var(--hot-yellow); letter-spacing: 2px; font-size: 12px; }
+
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
     <div class="smoke-overlay no-print"></div>
 
-    <!-- Nav -->
-    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 no-print">
+    <!-- Toast -->
+    <div id="toast">Added to your box!</div>
+
+    <!-- Sidebar Cart -->
+    <div id="cart-blur" class="cart-blur" onclick="toggleCart()"></div>
+    <div id="cart-panel" class="no-print">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-[#111]">
+            <h2 class="font-heading text-3xl text-white">YOUR BOX</h2>
+            <div class="flex items-center gap-4">
+                <button id="clear-cart-btn" onclick="clearCart()" class="text-[9px] font-bold uppercase tracking-widest text-white/30 hover:text-red-500 transition-colors hidden">CLEAR ALL</button>
+                <button onclick="toggleCart()" class="text-white/40 hover:text-white font-bold">CLOSE</button>
+            </div>
+        </div>
+        <div id="cart-content" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <p id="empty-msg" class="text-white/20 text-center py-20 font-marker text-xl">Your box is empty...</p>
+        </div>
+        <div class="p-6 border-t border-white/10 bg-[#111]">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-white/40 font-bold uppercase tracking-widest text-[10px]">Total Pickup Amount</span>
+                <span id="cart-total" class="text-3xl font-bold text-[#FFB800]">₹0</span>
+            </div>
+            <button onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-4 text-center rounded-sm font-heading text-xl shadow-lg hover:opacity-90 transition-opacity">
+                CONFIRM VIA WHATSAPP
+            </button>
+            <p class="text-[9px] text-white/30 text-center mt-4 uppercase tracking-[2px] font-bold">
+                WE WILL TEXT YOU WHEN YOUR FOOD IS READY!
+            </p>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Nav (hidden on md+) -->
+    <nav class="bottom-nav md:hidden no-print">
+        <a href="#menu">
+            <span class="nav-icon">🔥</span>Signatures
+        </a>
+        <a href="#full-spread">
+            <span class="nav-icon">📋</span>Menu
+        </a>
+        <a href="#combos">
+            <span class="nav-icon">🍱</span>Combos
+        </a>
+        <a href="#location">
+            <span class="nav-icon">📍</span>Locate
+        </a>
+        <button onclick="toggleCart()">
+            <span class="nav-icon">🛍️</span>My Box
+        </button>
+    </nav>
+
+    <!-- Floating Order Button -->
+    <div id="fab" class="sticky-fab no-print">
+        <button onclick="toggleCart()" class="bg-white text-black h-16 w-16 md:h-20 md:w-20 rounded-full flex items-center justify-center shadow-2xl border-4 border-black hover:bg-[#FF4D00] hover:text-white transition-all relative">
+            <span class="text-2xl md:text-3xl">🛍️</span>
+            <div id="cart-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</div>
+        </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-white/10 no-print">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="font-heading text-3xl text-[#FF4D00]">HOTBOXX</div>
+            <div class="flex items-center gap-4">
+                <div class="font-heading text-3xl text-[#FF4D00]">HOTBOXX</div>
+                <!-- FIX: removed 'hidden' class that was preventing JS from ever showing this -->
+                <div id="live-status" class="inline-flex items-center gap-2 text-[9px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase tracking-[2px]">
+                    <span class="h-2 w-2 rounded-full bg-red-600"></span> <span>Checking...</span>
+                </div>
+            </div>
             <div class="hidden md:flex gap-8 text-sm uppercase font-bold tracking-widest">
                 <a href="#menu" class="hover:text-[#FF4D00]">Signatures</a>
                 <a href="#full-spread" class="hover:text-[#FF4D00]">Menu</a>
                 <a href="#combos" class="hover:text-[#FF4D00]">Combos</a>
                 <a href="#location" class="hover:text-[#FF4D00]">Locate</a>
             </div>
-            <a href="https://wa.me/918876520650?text=Hi%20HOTBOXX!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="bg-white text-black px-4 py-2 text-xs font-bold uppercase hover:bg-[#FF4D00] hover:text-white transition-colors">Order Now</a>
+            <div class="flex items-center gap-6">
+                <button onclick="toggleCart()" class="md:hidden text-2xl">🛍️</button>
+                <a href="https://wa.me/918876520650" target="_blank" class="bg-white text-black px-5 py-2 text-xs font-bold uppercase hover:bg-[#FF4D00] hover:text-white transition-colors">Order Now</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 no-print">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20 grayscale"></div>
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20 grayscale"></div>
         <div class="absolute inset-0 bg-fire-gradient"></div>
-        
+        <div class="grunge-overlay"></div>
         <div class="relative z-10">
             <h1 class="font-heading text-8xl md:text-[12rem] leading-none mb-2 animate-flame">HOTBOXX</h1>
-            <p class="font-marker text-2xl md:text-4xl text-white/90 mb-10 -rotate-2">Smoked. Fried. Certified.</p>
-            
+            <p class="font-marker text-2xl md:text-4xl text-white/90 mb-10 -rotate-2 tracking-widest uppercase">Smoked. Fried. Certified.</p>
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <a href="#full-spread" class="btn-fire px-10 py-4 text-xl rounded-sm w-full md:w-auto">View Menu</a>
-                <a href="https://wa.me/918876520650?text=Hi%20HOTBOXX!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="border-2 border-white px-10 py-4 text-xl rounded-sm hover:bg-white hover:text-black transition-all w-full md:w-auto uppercase font-bold text-center">Order Now</a>
+                <!-- FIX: btn-fire is now defined in CSS -->
+                <a href="#full-spread" class="btn-fire px-12 py-4 text-xl rounded-sm w-full md:w-auto">View Menu</a>
+                <button onclick="toggleCart()" class="border-2 border-white px-12 py-4 text-xl rounded-sm hover:bg-white hover:text-black transition-all w-full md:w-auto uppercase font-bold">Pickup Order</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deal of the Month -->
+    <section class="py-16 px-6 bg-black border-y border-white/5 no-print">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 reveal">
+                <div>
+                    <p class="text-[#FF4D00] font-bold text-xs uppercase tracking-[4px] mb-2">Limited Time Only</p>
+                    <h2 class="font-heading text-5xl md:text-7xl text-white uppercase tracking-tighter leading-none">DEAL OF THE MONTH</h2>
+                </div>
+                <div class="deal-glow border border-[#FFB800]/30 px-6 py-3 text-center shrink-0">
+                    <p class="text-[#FFB800] font-heading text-2xl tracking-widest">MARCH SPECIALS</p>
+                    <p class="text-white/30 text-[9px] uppercase tracking-[3px] font-bold mt-1">While stocks last</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Deal 1: BOGO Chicken Strips -->
+                <div class="deal-card reveal">
+                    <span class="deal-badge">🔥 BOGO</span>
+                    <h3 class="font-heading text-5xl text-white uppercase leading-none mb-3">CHICKEN<br>STRIPS</h3>
+                    <p class="text-white/50 text-sm leading-relaxed mb-6">Buy ONE plate of Chicken Strips, get the SECOND completely free. Double the crunch, same price. Valid on dine-in &amp; pickup.</p>
+                    <div class="flex items-end justify-between border-t border-white/5 pt-4">
+                        <div>
+                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold line-through">Pay for 2</p>
+                            <p class="font-heading text-4xl text-[#FFB800]">PAY FOR 1</p>
+                        </div>
+                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-white/20 border border-white/10 px-3 py-1">Pickup &amp; Dine-in</span>
+                    </div>
+                </div>
+
+                <!-- Deal 2: Buy 2 Get 1 Biryani -->
+                <div class="deal-card reveal">
+                    <span class="deal-badge">🍚 BUY 2 GET 1</span>
+                    <h3 class="font-heading text-5xl text-white uppercase leading-none mb-3">CHICKEN<br>BIRYANI</h3>
+                    <p class="text-white/50 text-sm leading-relaxed mb-6">Order TWO plates of our ₹99 Chicken Biryani and the third one is on us. Perfect for a squad pickup — feed three, pay for two.</p>
+                    <div class="flex items-end justify-between border-t border-white/5 pt-4">
+                        <div>
+                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold">3 plates for</p>
+                            <p class="font-heading text-4xl text-[#FFB800]">₹198 <span class="text-white/20 text-2xl line-through">₹297</span></p>
+                        </div>
+                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-white/20 border border-white/10 px-3 py-1">Pickup Only</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Signatures -->
-    <section id="menu" class="py-24 px-6 bg-[#0a0a0a] no-print">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="font-heading text-6xl mb-12 text-center tracking-tighter uppercase">THE SIGNATURES</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="food-card p-6 rounded-lg group">
-                    <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tandoori Chicken" class="signature-img group-hover:scale-110 duration-500">
-                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-black font-bold px-2 py-1 text-sm rotate-12 shadow-lg tracking-tighter">CROWD FAVOURITE</div>
+    <section id="menu" class="py-24 px-6 bg-[#0a0a0a] relative no-print">
+        <div class="grunge-overlay opacity-20"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <h2 class="font-heading text-6xl mb-16 text-center tracking-tighter uppercase reveal">THE SIGNATURES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- FIX: food-card is now defined in CSS -->
+                <div class="food-card p-6 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
+                         <img src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-black font-bold px-3 py-1 text-xs rotate-12 shadow-xl tracking-tighter">BEST SELLER</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">BARBEQUE CHICKEN</h3>
-                    <p class="text-white/60 mb-4 text-sm">Our pit-smoked legend. Available in Qtr, Half, or Full stacks.</p>
+                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">BARBEQUE CHICKEN</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Our pit-smoked legend. Charred perfection in every bite, available in Qtr, Half, or Full stacks.</p>
                 </div>
-                <div class="food-card p-6 rounded-lg group">
-                    <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chicken Tikka" class="signature-img group-hover:scale-110 duration-500">
-                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-2 py-1 text-sm -rotate-12 shadow-lg tracking-tighter">CHEF'S PICK</div>
+                <div class="food-card p-6 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
+                         <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-3 py-1 text-xs -rotate-12 shadow-xl tracking-tighter">CHEF'S PICK</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">AFGHANI TIKKA</h3>
-                    <p class="text-white/60 mb-4 text-sm">Rich, smoky, and dangerously melt-in-the-mouth creamy.</p>
+                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">AFGHANI TIKKA</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Juicy, creamy, and melt-in-the-mouth tandoor mastery. A Silchar favorite.</p>
                 </div>
-                <div class="food-card p-6 rounded-lg group">
-                    <div class="overflow-hidden rounded-md mb-4 aspect-square bg-[#222] flex items-center justify-center relative">
-                         <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chilli Potato Fries" class="signature-img group-hover:scale-110 duration-500">
-                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-2 py-1 text-sm rotate-6 shadow-lg tracking-tighter">STREET CLASSIC</div>
+                <div class="food-card p-6 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
+                         <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-3 py-1 text-xs rotate-6 shadow-xl tracking-tighter">STREET CLASSIC</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">CRISPY CHILLI POTATOES</h3>
-                    <p class="text-white/60 mb-4 text-sm">Double-fried golden crunch tossed in serious street heat.</p>
+                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">CHILLI POTATOES</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Double-fried golden crunch tossed in serious street heat and tangy sauces.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FULL SPREAD -->
-    <section id="full-spread" class="py-24 px-6 bg-charcoal relative border-y border-white/5">
-        <div class="max-w-7xl mx-auto">
-            <!-- Print Only Header -->
-            <div class="print-header">
-                <h1 class="font-heading text-6xl text-black">HOTBOXX MENU</h1>
-                <p class="text-sm mt-2 font-bold uppercase tracking-widest">Rangirkhari Point, Silchar | Ph: 8876520650</p>
-            </div>
+    <!-- Full Spread (Menu Tabs) -->
+    <!-- FIX: bg-charcoal is now defined in CSS -->
+    <section id="full-spread" class="py-24 px-6 bg-charcoal relative border-y border-white/5 no-print">
+        <div class="grunge-overlay"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-heading text-7xl md:text-8xl mb-6 text-white uppercase tracking-tighter">FULL MENU</h2>
+                <p class="text-[#FF4D00] font-marker text-xl mb-12 italic">Tap any item to add to your box!</p>
 
-            <div class="flex flex-col items-center mb-20 text-center no-print">
-                <h2 class="font-heading text-7xl md:text-8xl mb-4 text-white uppercase tracking-tighter">THE FULL SPREAD</h2>
-                <button onclick="window.print()" class="btn-download bg-white text-black px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-[#FF4D00] hover:text-white transition-all flex items-center gap-3 rounded-full border-4 border-black group">
-                    <svg class="w-5 h-5 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Save Menu as PDF
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-32">
-                <!-- CATEGORIES BASED ON PDF DATA -->
-                <div>
-                    <h3 class="menu-category-header font-heading text-4xl text-white uppercase">Barbeque & Grill</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">BBQ Chicken (Q/H/F)<span class="item-label">Crowd Favourite</span></span> <span class="text-[#FFB800] font-bold">100/180/379</span></div>
-                        <div class="menu-item"><span class="font-bold">Afghani Tikka <span class="spice-dot">•</span></span> <span class="text-[#FFB800] font-bold">129</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Tikka <span class="spice-dot">••</span></span> <span class="text-[#FFB800] font-bold">119</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Hariyali <span class="spice-dot">••</span></span> <span class="text-[#FFB800] font-bold">119</span></div>
-                        <div class="menu-item"><span class="font-bold">Reshmi Kebab <span class="spice-dot">•</span></span> <span class="text-[#FFB800] font-bold">119</span></div>
-                        <div class="menu-item"><span class="font-bold">Paneer Tikka (4 pcs)</span> <span class="text-[#FFB800] font-bold">99</span></div>
-                    </div>
-
-                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16 uppercase">Rolls & Mughlai</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Egg Roll (Single/Double)</span> <span class="text-[#FFB800] font-bold">40/50</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Roll<span class="item-label">Chef's Pick</span></span> <span class="text-[#FFB800] font-bold">60</span></div>
-                        <div class="menu-item"><span class="font-bold">Egg Chicken Roll</span> <span class="text-[#FFB800] font-bold">70</span></div>
-                        <div class="menu-item"><span class="font-bold">Mughlai Paratha (Egg)</span> <span class="text-[#FFB800] font-bold">80</span></div>
-                        <div class="menu-item"><span class="font-bold">Mughlai Paratha (Chicken)</span> <span class="text-[#FFB800] font-bold">100</span></div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="menu-category-header font-heading text-4xl text-white uppercase">Fried Favourites</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Whole Fried Chicken</span> <span class="text-[#FFB800] font-bold">349</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Pakoda (6/12 pcs)</span> <span class="text-[#FFB800] font-bold">120/200</span></div>
-                        <div class="menu-item"><span class="font-bold">Hot Wings (4 pcs) <span class="spice-dot">••</span></span> <span class="text-[#FFB800] font-bold">89</span></div>
-                        <div class="menu-item"><span class="font-bold">Peri-Peri Wings (4 pcs) <span class="spice-dot">••</span></span> <span class="text-[#FFB800] font-bold">89</span></div>
-                        <div class="menu-item"><span class="font-bold">Drums of Heaven (3 pcs)</span> <span class="text-[#FFB800] font-bold">100</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Popcorn</span> <span class="text-[#FFB800] font-bold">120</span></div>
-                        <div class="menu-item"><span class="font-bold">Fish Finger (4 pcs)</span> <span class="text-[#FFB800] font-bold">130</span></div>
-                        <div class="menu-item"><span class="font-bold">French Fries (S/D)</span> <span class="text-[#FFB800] font-bold">49/99</span></div>
-                        <div class="menu-item"><span class="font-bold">Crispy Chilli Potatoes (S/D)</span> <span class="text-[#FFB800] font-bold">59/109</span></div>
-                        <div class="menu-item"><span class="font-bold">Poutine (Canadian Style)</span> <span class="text-[#FFB800] font-bold">129</span></div>
-                    </div>
-
-                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16 uppercase">Momos</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Steamed (Veg / Non-Veg)</span> <span class="text-[#FFB800] font-bold">30/40</span></div>
-                        <div class="menu-item"><span class="font-bold">Fried Upgrade</span> <span class="text-[#FFB800] font-bold">+10</span></div>
-                        <div class="menu-item"><span class="font-bold">Pan-Fried Upgrade</span> <span class="text-[#FFB800] font-bold">+30</span></div>
-                        <div class="menu-item"><span class="font-bold">Chilli Fried / Butter Tossed</span> <span class="text-[#FFB800] font-bold">+50</span></div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="menu-category-header font-heading text-4xl text-white uppercase">Mains & Wok</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Veg Fried Rice / Noodles</span> <span class="text-[#FFB800] font-bold">49/89</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Fried Rice / Noodles</span> <span class="text-[#FFB800] font-bold">69/109</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Biryani</span> <span class="text-[#FFB800] font-bold">99</span></div>
-                        <div class="menu-item"><span class="font-bold">Chilli Chicken (6 pcs)</span> <span class="text-[#FFB800] font-bold">129</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Manchurian (6 pcs)</span> <span class="text-[#FFB800] font-bold">129</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Bharta</span> <span class="text-[#FFB800] font-bold">119</span></div>
-                        <div class="menu-item"><span class="font-bold">Chicken Kosha (3 pcs)</span> <span class="text-[#FFB800] font-bold">119</span></div>
-                    </div>
-
-                    <h3 class="menu-category-header font-heading text-4xl text-white mt-16 uppercase">Refreshments</h3>
-                    <div class="space-y-4">
-                        <div class="menu-item"><span class="font-bold">Hangover Soda / Masala Soda</span> <span class="text-[#FFB800] font-bold">49</span></div>
-                        <div class="menu-item"><span class="font-bold">Mojito (Virgin)</span> <span class="text-[#FFB800] font-bold">49</span></div>
-                        <div class="menu-item"><span class="font-bold">Cappuccino / Tea</span> <span class="text-[#FFB800] font-bold">19/10</span></div>
-                        <div class="menu-item"><span class="font-bold">Soft Drinks</span> <span class="text-[#FFB800] font-bold">MRP</span></div>
-                    </div>
+                <!-- FIX: pass 'this' to showTab so we don't rely on implicit global event -->
+                <div class="flex justify-center gap-2 overflow-x-auto pb-6 no-scrollbar">
+                    <button class="tab-btn active" onclick="showTab('grill', this)">GRILL</button>
+                    <button class="tab-btn" onclick="showTab('fried', this)">FRIED</button>
+                    <button class="tab-btn" onclick="showTab('mains', this)">MAINS</button>
+                    <button class="tab-btn" onclick="showTab('refresh', this)">DRINKS</button>
                 </div>
             </div>
 
-            <!-- EXPANDED COMBO SPECIALS SECTION (11 COMBOS) -->
-            <div id="combos" class="mt-20 pt-20 no-print">
-                <div class="text-center mb-16">
-                    <h2 class="font-heading text-6xl md:text-8xl text-white mb-2 uppercase tracking-tighter">HOT COMBOS</h2>
-                    <p class="font-marker text-2xl text-[#FF4D00] italic uppercase">The Ultimate Lineup</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-white/10 border-t border-white/10">
-                    <!-- 01 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">The Original</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">HOTBOXX<br>CLASSIC</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Tikka (4P) + French Fries + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">109</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">01</span>
-                        </div>
-                    </div>
-
-                    <!-- 02 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Fried Fix</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">FRIED<br>FEAST</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Fry (2P) + Pakoda (4P) + Fries + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">02</span>
-                        </div>
-                    </div>
-
-                    <!-- 03 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Momo Love</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">MOMO<br>MEAL</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Fried Momos (6P) + Fries + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">03</span>
-                        </div>
-                    </div>
-
-                    <!-- 04 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Rice Base</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">RICE &<br>FIRE</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Fried Rice (F) + Chilli Chicken (3P) + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">04</span>
-                        </div>
-                    </div>
-
-                    <!-- 05 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Wok Heat</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">STREET<br>WOK</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Noodles (F) + Chicken Manchurian (3P) + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">05</span>
-                        </div>
-                    </div>
-
-                    <!-- 06 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Snack Stack</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">TURF &<br>TURF</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">French Fries + Chicken Popcorn (20P) + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">06</span>
-                        </div>
-                    </div>
-
-                    <!-- 07 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Wing It</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">WINGS &<br>FRIES</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Hot or Peri Wings (4P) + Fries + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">149</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">07</span>
-                        </div>
-                    </div>
-
-                    <!-- 08 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Premium</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">HOUSE<br>SPECIAL</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Gold Coin (6P) + Fries + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">219</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">08</span>
-                        </div>
-                    </div>
-
-                    <!-- 09 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag" style="background: var(--hot-red);">Exclusive</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">MIDNIGHT<br>MESS</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Gravy Fries + Popcorn + Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">200</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">09</span>
-                        </div>
-                    </div>
-
-                    <!-- 10 -->
-                    <div class="combo-grid-item border-r border-b border-white/10">
-                        <span class="combo-tag">Royal Fix</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">BIRYANI<br>BLAST</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Biryani + Pakoda (2P) + Soft Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">139</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">10</span>
-                        </div>
-                    </div>
-
-                    <!-- 11 -->
-                    <div class="combo-grid-item border-r border-b border-white/10 lg:col-span-2">
-                        <span class="combo-tag">Mughlai Special</span>
-                        <h4 class="font-heading text-3xl mb-4 text-white uppercase leading-none">MUGHLAI<br>MAGIC</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Mughlai Paratha + Fries + Soft Drink</p>
-                        <div class="flex items-end justify-between">
-                            <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">129</span>
-                            <span class="text-white/20 text-xs font-bold tracking-widest uppercase italic">11</span>
-                        </div>
+            <div class="max-w-4xl mx-auto">
+                <!-- GRILL PANEL -->
+                <div id="panel-grill" class="menu-panel block">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <!-- FIX: Added ₹ symbol to all prices -->
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken Qtr', 120)"><span>BBQ Chicken (Qtr)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken Half', 240)"><span>BBQ Chicken (Half)</span> <span>₹240</span></div>
+                        <div class="menu-item" onclick="addToCart('Afghani Tikka', 139)"><span>Afghani Tikka <span class="spice-dot">•</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Tikka', 129)"><span>Chicken Tikka <span class="spice-dot">••</span></span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Hariyali', 119)"><span>Chicken Hariyali <span class="spice-dot">••</span></span> <span>₹119</span></div>
+                        <div class="menu-item" onclick="addToCart('Reshmi Kebab', 129)"><span>Reshmi Kebab <span class="spice-dot">•</span></span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Roll (Single)', 59)"><span>Egg Roll (Single)</span> <span>₹59</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Roll', 79)"><span>Chicken Roll <span class="item-label">Top Sell</span></span> <span>₹79</span></div>
+                        <div class="menu-item" onclick="addToCart('Mughlai Paratha Egg', 80)"><span>Mughlai Paratha (Egg)</span> <span>₹80</span></div>
                     </div>
                 </div>
-            </div>
-
-            <!-- SPICE INDEX -->
-            <div class="text-center py-10 border-y border-white/10 mt-24 no-print">
-                <span class="uppercase font-bold tracking-[0.4em] text-[10px] text-white/30 mr-8">SPICE INDEX:</span>
-                <span class="inline-flex flex-wrap justify-center gap-10 font-bold text-xs uppercase tracking-widest">
-                    <span class="flex items-center gap-3"><span class="spice-dot">•</span> MILD</span>
-                    <span class="flex items-center gap-3 text-[#FF4D00]"><span class="spice-dot">••</span> MEDIUM</span>
-                    <span class="flex items-center gap-3 text-[#D72600]"><span class="spice-dot">•••</span> SMOKING HOT</span>
-                </span>
+                <!-- FRIED PANEL -->
+                <div id="panel-fried" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <div class="menu-item" onclick="addToCart('Hot Wings (4P)', 110)"><span>Hot Wings (4P)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Popcorn', 139)"><span>Chicken Popcorn</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (6P)', 130)"><span>Chicken Pakoda (6P)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('Fish Finger (4P)', 199)"><span>Fish Finger (4P)</span> <span>₹199</span></div>
+                        <div class="menu-item" onclick="addToCart('Spring Rolls (4P)', 99)"><span>Spring Rolls (4P)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Whole Fried Chicken', 450)"><span>Whole Fried Chicken</span> <span>₹450</span></div>
+                    </div>
+                </div>
+                <!-- MAINS PANEL -->
+                <div id="panel-mains" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (F)', 119)"><span>Chicken Fried Rice (F)</span> <span>₹119</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Biryani', 99)"><span>Chicken Biryani <span class="item-label">99 Only</span></span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Steamed Chicken Momo (6P)', 50)"><span>Steamed Chicken Momo</span> <span>₹50</span></div>
+                        <div class="menu-item" onclick="addToCart('Fried Chicken Momo (6P)', 70)"><span>Fried Chicken Momo</span> <span>₹70</span></div>
+                        <div class="menu-item" onclick="addToCart('Chilli Chicken (6P)', 139)"><span>Chilli Chicken (6P)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Bharta', 129)"><span>Chicken Bharta</span> <span>₹129</span></div>
+                    </div>
+                </div>
+                <!-- DRINKS PANEL -->
+                <div id="panel-refresh" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <div class="menu-item" onclick="addToCart('Masala Soda', 49)"><span>Masala Soda</span> <span>₹49</span></div>
+                        <div class="menu-item" onclick="addToCart('Mojito (Virgin)', 49)"><span>Mojito (Virgin)</span> <span>₹49</span></div>
+                        <div class="menu-item" onclick="addToCart('Coffee', 20)"><span>Coffee</span> <span>₹20</span></div>
+                        <div class="menu-item" onclick="addToCart('Lemon Tea', 10)"><span>Lemon Tea</span> <span>₹10</span></div>
+                        <div class="menu-item" onclick="addToCart('Special Tea', 15)"><span>Special Tea</span> <span>₹15</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer id="location" class="bg-[#0a0a0a] pt-24 pb-12 border-t border-white/10 relative no-print">
-        <div class="max-w-7xl mx-auto px-6 text-center lg:text-left">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <div class="space-y-6">
-                    <div>
-                        <div class="font-heading text-4xl text-[#FF4D00]">HOTBOXX</div>
-                        <p class="font-marker text-white/40 text-sm tracking-widest uppercase">Smoked. Fried. Certified.</p>
-                    </div>
-                    <p class="text-white/60 text-sm leading-relaxed max-w-xs mx-auto lg:mx-0">
-                        Silchar's original destination for pit-smoked chicken and fiery street staples.
-                    </p>
-                    <div class="flex justify-center lg:justify-start gap-4">
-                        <a href="https://www.instagram.com/hotboxx_silchar/" target="_blank" class="social-btn">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
-                </div>
+    <!-- Hot Combos -->
+    <section id="combos" class="py-24 px-6 bg-black no-print">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-heading text-6xl md:text-8xl text-white mb-4 uppercase tracking-tighter">HOT SELLER COMBOS</h2>
+                <p class="font-marker text-2xl text-[#FF4D00] italic tracking-widest uppercase">The Daily Stacks</p>
+            </div>
 
-                <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Navigation</h4>
-                    <ul class="flex flex-col gap-3 font-bold text-sm uppercase tracking-widest">
-                        <li><a href="#menu" class="footer-link">The Signature Goods</a></li>
-                        <li><a href="#full-spread" class="footer-link">Full Spread Menu</a></li>
-                        <li><a href="#combos" class="footer-link">Combos</a></li>
-                    </ul>
-                </div>
-
-                <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Opening Hours</h4>
-                    <div class="space-y-4 text-[10px] font-bold tracking-[2px] uppercase">
-                        <div class="flex justify-between text-white/60"><span>Mon — Thu</span><span class="text-white">05:00 PM - 11:00 PM</span></div>
-                        <div class="flex justify-between text-white/60"><span>Fri — Sat</span><span class="text-white">05:00 PM - 11:00 PM</span></div>
-                        <div class="flex justify-between text-[#FF4D00]"><span>Sunday</span><span class="text-[#FF4D00]">05:00 PM - 11:30 PM</span></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-white/10 border-t border-white/10">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Classic', 169)">
+                    <span class="combo-tag">The Legend</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">HOTBOXX<br>CLASSIC</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Tikka (4P) + French Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">01</span>
                     </div>
                 </div>
-
-                <div class="space-y-6">
-                    <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2 tracking-widest">Drop By</h4>
-                    <div class="space-y-4 text-[10px] font-bold tracking-[2px] uppercase">
-                        <div class="flex justify-center lg:justify-start gap-3"><span class="text-[#FF4D00] text-lg">📍</span><p class="text-white/80">Rangirkhari point, Silchar</p></div>
-                        <div class="flex justify-center lg:justify-start gap-3 items-center"><span class="text-[#FF4D00] text-lg">📞</span><a href="tel:+918876520650" class="text-white">+91 88765 20650</a></div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fried Feast', 219)">
+                    <span class="combo-tag">Full Belly</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">FRIED<br>FEAST</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Fry (2P) + Pakoda (4P) + Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹219</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">02</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Momo Meal', 119)">
+                    <span class="combo-tag">Snack Mix</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">MOMO<br>MEAL</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Fried Chicken Momos (6P) + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹119</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">03</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Rice & Fire', 169)">
+                    <span class="combo-tag">Wok Heat</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">RICE &<br>FIRE</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Fried Rice + Chilli Chicken (3P) + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">04</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fiery Wings', 169)">
+                    <span class="combo-tag">Hot</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">FIERY<br>WINGS</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Hot Wings (6P) + French Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">07</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Roll & Sip', 139)">
+                    <span class="combo-tag">Quick</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">ROLL &<br>SIP</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Roll + French Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹139</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">08</span>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="py-24 px-6 bg-[#0a0a0a] border-t border-white/5 no-print">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <p class="text-[#FF4D00] font-bold text-xs uppercase tracking-[4px] mb-3">Real People. Real Hunger.</p>
+                <h2 class="font-heading text-5xl md:text-7xl text-white uppercase tracking-tighter">WHAT SILCHAR SAYS</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="review-card reveal">
+                    <div class="stars mb-4">★★★★★</div>
+                    <p class="text-white/70 text-sm leading-relaxed mb-6">"The BBQ chicken is unreal. I drive from Link Road just for this. No place in Silchar even comes close to that smoky flavour."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-8 h-8 rounded-full bg-[#FF4D00]/20 flex items-center justify-center font-heading text-[#FF4D00] text-lg">R</div>
+                        <div>
+                            <p class="font-bold text-xs uppercase tracking-wider">Rahul D.</p>
+                            <p class="text-white/20 text-[9px] uppercase tracking-widest">Regular since 2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card reveal">
+                    <div class="stars mb-4">★★★★★</div>
+                    <p class="text-white/70 text-sm leading-relaxed mb-6">"Ordered the Fried Feast combo for our college gang — everyone was satisfied. ₹219 for that much food is honestly a steal. We come here every week now."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-8 h-8 rounded-full bg-[#FFB800]/20 flex items-center justify-center font-heading text-[#FFB800] text-lg">P</div>
+                        <div>
+                            <p class="font-bold text-xs uppercase tracking-wider">Priya S.</p>
+                            <p class="text-white/20 text-[9px] uppercase tracking-widest">NIT Silchar</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card reveal">
+                    <div class="stars mb-4">★★★★★</div>
+                    <p class="text-white/70 text-sm leading-relaxed mb-6">"Afghani Tikka is absolutely melt-in-mouth. The WhatsApp pickup system is so convenient — ordered, got a text, walked in and it was ready. Love it."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-8 h-8 rounded-full bg-[#D72600]/20 flex items-center justify-center font-heading text-[#D72600] text-lg">A</div>
+                        <div>
+                            <p class="font-bold text-xs uppercase tracking-wider">Avinash K.</p>
+                            <p class="text-white/20 text-[9px] uppercase tracking-widest">Rangirkhari Local</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery CTA -->
+    <section class="py-24 px-6 bg-charcoal relative no-print overflow-hidden">
+        <div class="grunge-overlay"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="font-marker text-5xl text-[#FF4D00] mb-8">DELIVERY MODE?</h2>
+            <p class="text-xl text-white/60 mb-12">Search "Hotboxx" on Swiggy or Zomato and get the heat delivered to your doorstep.</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <div class="delivery-pill">
+                    <span class="h-2 w-2 rounded-full bg-[#FC8019] animate-pulse"></span>
+                    <span class="font-bold text-sm tracking-widest uppercase">SWIGGY</span>
+                </div>
+                <div class="delivery-pill">
+                    <span class="h-2 w-2 rounded-full bg-[#E23744] animate-pulse"></span>
+                    <span class="font-bold text-sm tracking-widest uppercase">ZOMATO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="location" class="bg-[#0a0a0a] pt-24 pb-12 border-t border-white/10 no-print">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center lg:text-left">
+            <div class="space-y-6">
+                <div class="font-heading text-4xl text-[#FF4D00]">HOTBOXX</div>
+                <p class="text-white/40 text-sm tracking-widest uppercase font-bold">Smoked. Fried. Certified.</p>
+                <p class="text-white/60 text-sm leading-relaxed">Silchar's original destination for pit-smoked street food favorites.</p>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Links</h4>
+                <ul class="flex flex-col gap-3 font-bold text-xs uppercase tracking-widest text-white/40">
+                    <li><a href="#menu" class="hover:text-white">Signatures</a></li>
+                    <li><a href="#full-spread" class="hover:text-white">Full Menu</a></li>
+                    <li><a href="#combos" class="hover:text-white">Hot Combos</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Working Hours</h4>
+                <div class="space-y-4 text-[10px] font-bold uppercase tracking-widest">
+                    <div class="flex justify-between"><span>Mon — Sat</span><span class="text-white">05:00 PM - 11:00 PM</span></div>
+                    <div class="flex justify-between text-[#FF4D00]"><span>Sunday</span><span class="text-[#FF4D00]">05:00 PM - 11:30 PM</span></div>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Find Us</h4>
+                <div class="space-y-4 text-[10px] font-bold uppercase tracking-widest">
+                    <p>📍 Rangirkhari Point, Silchar</p>
+                    <a href="tel:+918876520650" class="block text-white">📞 +91 88765 20650</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Maps -->
+        <div class="max-w-7xl mx-auto px-6 mt-16">
+            <div class="border border-white/5 overflow-hidden" style="height: 280px;">
+                <iframe
+                    src="https://maps.google.com/maps?q=Rangirkhari,+Silchar,+Assam&z=15&output=embed"
+                    width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(0.85);"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <p class="text-center text-white/20 text-[9px] uppercase tracking-[3px] font-bold mt-4">Rangirkhari Point, Silchar, Assam</p>
         </div>
     </footer>
 
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if (this.getAttribute('href').startsWith('#')) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        // cart is keyed by item name: { 'Item Name': { name, price, qty } }
+        let cart = {};
+
+        // Scroll Reveal
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(r => {
+                if (r.getBoundingClientRect().top < window.innerHeight - 150) {
+                    r.classList.add("active");
                 }
             });
+        }
+
+        window.addEventListener("scroll", () => {
+            reveal();
+            const scrollY = window.scrollY;
+            if (scrollY > 600) document.getElementById('fab').classList.add('visible');
+            else document.getElementById('fab').classList.remove('visible');
         });
+
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.menu-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + tabId).classList.remove('hidden');
+            btn.classList.add('active');
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-panel').classList.toggle('open');
+            document.getElementById('cart-blur').classList.toggle('open');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function addToCart(name, price) {
+            if (cart[name]) {
+                cart[name].qty++;
+            } else {
+                cart[name] = { name, price, qty: 1 };
+            }
+            updateCartDisplay();
+            showToast('Added: ' + name);
+        }
+
+        function addOne(name) {
+            if (cart[name]) { cart[name].qty++; updateCartDisplay(); }
+        }
+
+        function removeOne(name) {
+            if (!cart[name]) return;
+            cart[name].qty--;
+            if (cart[name].qty <= 0) delete cart[name];
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = {};
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const emptyMsg   = document.getElementById('empty-msg');
+            const container  = document.getElementById('cart-content');
+            const clearBtn   = document.getElementById('clear-cart-btn');
+            const items      = Object.values(cart);
+            const totalQty   = items.reduce((sum, i) => sum + i.qty, 0);
+            const total      = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+            // Update total & badge
+            document.getElementById('cart-total').innerText = '₹' + total;
+            const badge = document.getElementById('cart-badge');
+            badge.innerText = totalQty;
+            badge.style.opacity = totalQty > 0 ? '1' : '0';
+
+            // Show/hide clear button
+            clearBtn.classList.toggle('hidden', items.length === 0);
+
+            // Remove old item cards
+            container.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+            if (items.length === 0) {
+                emptyMsg.style.display = 'block';
+            } else {
+                emptyMsg.style.display = 'none';
+                items.forEach(item => {
+                    // Escape name for use in inline onclick
+                    const safeName = item.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                    const div = document.createElement('div');
+                    div.className = 'cart-item flex justify-between items-center bg-white/5 p-4 rounded border border-white/10 animate-slide-in';
+                    div.innerHTML = `
+                        <div class="flex-1 min-w-0 mr-3">
+                            <p class="font-bold text-sm uppercase tracking-wider leading-tight">${item.name}</p>
+                            <p class="text-xs text-white/30 mt-0.5">₹${item.price} each</p>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="removeOne('${safeName}')" class="w-7 h-7 rounded-full border border-white/20 text-white/50 hover:border-[#FF4D00] hover:text-[#FF4D00] font-bold flex items-center justify-center transition-colors">−</button>
+                            <span class="font-heading text-xl w-5 text-center leading-none">${item.qty}</span>
+                            <button onclick="addOne('${safeName}')" class="w-7 h-7 rounded-full border border-white/20 text-white/50 hover:border-[#FF4D00] hover:text-[#FF4D00] font-bold flex items-center justify-center transition-colors">+</button>
+                            <span class="text-xs font-bold text-[#FFB800] w-12 text-right">₹${item.price * item.qty}</span>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        function generateOrderRef() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let ref = '#HB-';
+            for (let i = 0; i < 4; i++) ref += chars[Math.floor(Math.random() * chars.length)];
+            return ref;
+        }
+
+        function sendOrderWhatsApp() {
+            const items = Object.values(cart);
+            if (items.length === 0) {
+                showToast('Add items to your box first!');
+                return;
+            }
+            const ref = generateOrderRef();
+            let text = `Hi HOTBOXX! PICKUP ORDER ${ref}\n\n`;
+            items.forEach(item => text += `• ${item.name} x${item.qty} — ₹${item.price * item.qty}\n`);
+            const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+            text += `\nTotal: ₹${total}\n\nPlease confirm ${ref} and text me when it's ready!`;
+            window.open(`https://wa.me/918876520650?text=${encodeURIComponent(text)}`);
+        }
+
+        // IST Time Check for Live Status
+        function checkShopStatus() {
+            const statusBox = document.getElementById('live-status');
+            const dot   = statusBox.querySelector('span:first-child');
+            const label = statusBox.querySelector('span:last-child');
+
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const ist = new Date(utc + (3600000 * 5.5));
+
+            const hours   = ist.getHours();
+            const mins    = ist.getMinutes();
+            const timeVal = hours + mins / 60;
+            const day     = ist.getDay();
+
+            let open = false;
+            if (day === 0) {           // Sunday
+                if (timeVal >= 17 && timeVal < 23.5) open = true;
+            } else {                   // Mon–Sat
+                if (timeVal >= 17 && timeVal < 23)   open = true;
+            }
+
+            if (open) {
+                dot.className = "h-2 w-2 rounded-full bg-green-500 animate-pulse";
+                label.innerText = "OPEN NOW";
+                statusBox.classList.add('border-green-500/30');
+                statusBox.classList.remove('border-white/10');
+            } else {
+                dot.className = "h-2 w-2 rounded-full bg-red-600";
+                label.innerText = "CLOSED";
+                statusBox.classList.remove('border-green-500/30');
+                statusBox.classList.add('border-white/10');
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            reveal();
+            checkShopStatus();
+            setInterval(checkShopStatus, 60000);
+        };
     </script>
 </body>
 </html>
