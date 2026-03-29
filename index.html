@@ -239,6 +239,16 @@
         }
         .stars { color: var(--hot-yellow); letter-spacing: 2px; font-size: 12px; }
 
+        /* Menu sub-section headers inside panels */
+        .menu-sub-header {
+            grid-column: 1 / -1;
+            font-size: 9px; font-weight: 900; letter-spacing: 3px;
+            text-transform: uppercase; color: var(--hot-orange);
+            border-bottom: 1px solid rgba(255,77,0,0.25);
+            padding-bottom: 4px; margin-top: 1.75rem; margin-bottom: 0.25rem;
+        }
+        .menu-sub-header:first-child { margin-top: 0; }
+
         @media print { .no-print { display: none !important; } }
     </style>
 </head>
@@ -437,48 +447,96 @@
                 <!-- GRILL PANEL -->
                 <div id="panel-grill" class="menu-panel block">
                     <div class="grid md:grid-cols-2 gap-x-12">
-                        <!-- FIX: Added ₹ symbol to all prices -->
-                        <div class="menu-item" onclick="addToCart('BBQ Chicken Qtr', 120)"><span>BBQ Chicken (Qtr)</span> <span>₹120</span></div>
-                        <div class="menu-item" onclick="addToCart('BBQ Chicken Half', 240)"><span>BBQ Chicken (Half)</span> <span>₹240</span></div>
+                        <p class="menu-sub-header">BBQ &amp; Grill</p>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Qtr)', 120)"><span>BBQ Chicken (Qtr)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Half)', 240)"><span>BBQ Chicken (Half)</span> <span>₹240</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Full)', 450)"><span>BBQ Chicken (Full)</span> <span>₹450</span></div>
                         <div class="menu-item" onclick="addToCart('Afghani Tikka', 139)"><span>Afghani Tikka <span class="spice-dot">•</span></span> <span>₹139</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Tikka', 129)"><span>Chicken Tikka <span class="spice-dot">••</span></span> <span>₹129</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Hariyali', 119)"><span>Chicken Hariyali <span class="spice-dot">••</span></span> <span>₹119</span></div>
                         <div class="menu-item" onclick="addToCart('Reshmi Kebab', 129)"><span>Reshmi Kebab <span class="spice-dot">•</span></span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Tikka (4 pcs)', 110)"><span>Paneer Tikka (4 pcs)</span> <span>₹110</span></div>
+                        <p class="menu-sub-header">Rolls &amp; Wraps</p>
                         <div class="menu-item" onclick="addToCart('Egg Roll (Single)', 59)"><span>Egg Roll (Single)</span> <span>₹59</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Roll (Double)', 69)"><span>Egg Roll (Double)</span> <span>₹69</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Roll', 79)"><span>Chicken Roll <span class="item-label">Top Sell</span></span> <span>₹79</span></div>
-                        <div class="menu-item" onclick="addToCart('Mughlai Paratha Egg', 80)"><span>Mughlai Paratha (Egg)</span> <span>₹80</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Roll', 99)"><span>Egg Chicken Roll</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Mughlai Paratha (Egg)', 80)"><span>Mughlai Paratha (Egg)</span> <span>₹80</span></div>
+                        <div class="menu-item" onclick="addToCart('Mughlai Paratha (Chicken)', 100)"><span>Mughlai Paratha (Chicken)</span> <span>₹100</span></div>
                     </div>
                 </div>
                 <!-- FRIED PANEL -->
                 <div id="panel-fried" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
-                        <div class="menu-item" onclick="addToCart('Hot Wings (4P)', 110)"><span>Hot Wings (4P)</span> <span>₹110</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Popcorn', 139)"><span>Chicken Popcorn</span> <span>₹139</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (6P)', 130)"><span>Chicken Pakoda (6P)</span> <span>₹130</span></div>
-                        <div class="menu-item" onclick="addToCart('Fish Finger (4P)', 199)"><span>Fish Finger (4P)</span> <span>₹199</span></div>
-                        <div class="menu-item" onclick="addToCart('Spring Rolls (4P)', 99)"><span>Spring Rolls (4P)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Strips (4 pcs)', 199)"><span>Chicken Strips (4 pcs) <span class="item-label" style="background:#FFB800;color:black;">BOGO</span></span> <span>₹199</span></div>
+                        <div class="menu-item" onclick="addToCart('Hot Wings (4 pcs)', 99)"><span>Hot Wings (4 pcs)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Peri-Peri Wings (4 pcs)', 99)"><span>Peri-Peri Wings (4 pcs)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Drums of Heaven (3 pcs)', 110)"><span>Drums of Heaven (3 pcs)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Popcorn (Reg)', 120)"><span>Chicken Popcorn (Reg)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (6 pcs)', 130)"><span>Chicken Pakoda (6 pcs)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (12 pcs)', 220)"><span>Chicken Pakoda (12 pcs)</span> <span>₹220</span></div>
+                        <div class="menu-item" onclick="addToCart('Fish Finger (4 pcs)', 139)"><span>Fish Finger (4 pcs)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Gold Coin (6 pcs)', 200)"><span>Chicken Gold Coin (6 pcs)</span> <span>₹200</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Nuggets (4 pcs)', 129)"><span>Chicken Nuggets (4 pcs)</span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Spring Rolls (4 pcs)', 99)"><span>Spring Rolls (4 pcs)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('French Fries (Single)', 59)"><span>French Fries (Single)</span> <span>₹59</span></div>
+                        <div class="menu-item" onclick="addToCart('French Fries (Double)', 110)"><span>French Fries (Double)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Crispy Chilli Potatoes (S)', 69)"><span>Crispy Chilli Potatoes (S)</span> <span>₹69</span></div>
+                        <div class="menu-item" onclick="addToCart('Crispy Chilli Potatoes (D)', 119)"><span>Crispy Chilli Potatoes (D)</span> <span>₹119</span></div>
                         <div class="menu-item" onclick="addToCart('Whole Fried Chicken', 450)"><span>Whole Fried Chicken</span> <span>₹450</span></div>
                     </div>
                 </div>
                 <!-- MAINS PANEL -->
                 <div id="panel-mains" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
+                        <p class="menu-sub-header">Rice &amp; Noodles</p>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (S)', 59)"><span>Veg Fried Rice (S)</span> <span>₹59</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (F)', 99)"><span>Veg Fried Rice (F)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (S)', 69)"><span>Egg Fried Rice (S)</span> <span>₹69</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (F)', 110)"><span>Egg Fried Rice (F)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (S)', 79)"><span>Chicken Fried Rice (S)</span> <span>₹79</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Fried Rice (F)', 119)"><span>Chicken Fried Rice (F)</span> <span>₹119</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Biryani', 99)"><span>Chicken Biryani <span class="item-label">99 Only</span></span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Steamed Chicken Momo (6P)', 50)"><span>Steamed Chicken Momo</span> <span>₹50</span></div>
-                        <div class="menu-item" onclick="addToCart('Fried Chicken Momo (6P)', 70)"><span>Fried Chicken Momo</span> <span>₹70</span></div>
-                        <div class="menu-item" onclick="addToCart('Chilli Chicken (6P)', 139)"><span>Chilli Chicken (6P)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (S)', 89)"><span>Egg Chicken Fried Rice (S)</span> <span>₹89</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (F)', 129)"><span>Egg Chicken Fried Rice (F)</span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (S)', 59)"><span>Veg Fried Noodles (S)</span> <span>₹59</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (F)', 99)"><span>Veg Fried Noodles (F)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (S)', 69)"><span>Egg Fried Noodles (S)</span> <span>₹69</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (F)', 110)"><span>Egg Fried Noodles (F)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (S)', 79)"><span>Chicken Fried Noodles (S)</span> <span>₹79</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (F)', 119)"><span>Chicken Fried Noodles (F)</span> <span>₹119</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (S)', 89)"><span>Egg Chicken Fried Noodles (S)</span> <span>₹89</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (F)', 129)"><span>Egg Chicken Fried Noodles (F)</span> <span>₹129</span></div>
+                        <p class="menu-sub-header">Biryani</p>
+                        <div class="menu-item" onclick="addToCart('Chicken Biryani (Half)', 99)"><span>Chicken Biryani (Half) <span class="item-label">Everyday ₹99</span></span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Biryani (Full)', 199)"><span>Chicken Biryani (Full)</span> <span>₹199</span></div>
+                        <p class="menu-sub-header">Momos</p>
+                        <div class="menu-item" onclick="addToCart('Steamed Chicken Momo (6P)', 50)"><span>Steamed Chicken Momo (6P)</span> <span>₹50</span></div>
+                        <div class="menu-item" onclick="addToCart('Fried Chicken Momo (6P)', 70)"><span>Fried Chicken Momo (6P)</span> <span>₹70</span></div>
+                        <div class="menu-item" onclick="addToCart('Pan-Fried Chicken Momo', 80)"><span>Pan-Fried Chicken Momo</span> <span>₹80</span></div>
+                        <div class="menu-item" onclick="addToCart('Chilli Fried Chicken Momo', 100)"><span>Chilli Fried Chicken Momo <span class="spice-dot">••</span></span> <span>₹100</span></div>
+                        <div class="menu-item" onclick="addToCart('Butter Tossed Chicken Momo', 100)"><span>Butter Tossed Chicken Momo</span> <span>₹100</span></div>
+                        <p class="menu-sub-header">Gravy</p>
+                        <div class="menu-item" onclick="addToCart('Chilli Chicken (6 pcs)', 139)"><span>Chilli Chicken (6 pcs) <span class="spice-dot">••</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Manchurian (6 pcs)', 139)"><span>Chicken Manchurian (6 pcs)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Schezwan Chicken (6 pcs)', 139)"><span>Schezwan Chicken (6 pcs) <span class="spice-dot">•</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chilli Fish (6 pcs)', 179)"><span>Chilli Fish (6 pcs) <span class="spice-dot">••</span></span> <span>₹179</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Manchurian', 79)"><span>Veg Manchurian</span> <span>₹79</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Bharta', 129)"><span>Chicken Bharta</span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Kosha (3 pcs)', 129)"><span>Chicken Kosha (3 pcs)</span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken SC (3 pcs)', 119)"><span>Chicken SC (3 pcs)</span> <span>₹119</span></div>
                     </div>
                 </div>
                 <!-- DRINKS PANEL -->
                 <div id="panel-refresh" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
+                        <div class="menu-item" onclick="addToCart('Hangover Soda', 49)"><span>Hangover Soda</span> <span>₹49</span></div>
                         <div class="menu-item" onclick="addToCart('Masala Soda', 49)"><span>Masala Soda</span> <span>₹49</span></div>
                         <div class="menu-item" onclick="addToCart('Mojito (Virgin)', 49)"><span>Mojito (Virgin)</span> <span>₹49</span></div>
                         <div class="menu-item" onclick="addToCart('Coffee', 20)"><span>Coffee</span> <span>₹20</span></div>
                         <div class="menu-item" onclick="addToCart('Lemon Tea', 10)"><span>Lemon Tea</span> <span>₹10</span></div>
                         <div class="menu-item" onclick="addToCart('Special Tea', 15)"><span>Special Tea</span> <span>₹15</span></div>
+                        <div class="menu-item cursor-default"><span>Coke / Sprite</span> <span class="text-white/30">MRP</span></div>
+                        <div class="menu-item cursor-default"><span>Packaged Water</span> <span class="text-white/30">MRP</span></div>
                     </div>
                 </div>
             </div>
@@ -546,6 +604,42 @@
                     <div class="flex items-end justify-between">
                         <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹139</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">08</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Street Wok', 169)">
+                    <span class="combo-tag">Noodle Night</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">STREET<br>WOK</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Noodles + Chicken Manchurian (3P) + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">05</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Kosha Plate', 129)">
+                    <span class="combo-tag">Comfort Pick</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">KOSHA<br>PLATE</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Fried Rice + Chicken Kosha (2P) + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹129</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">06</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Turf & Turf', 169)">
+                    <span class="combo-tag">Crunch</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">TURF &<br>TURF</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Popcorn + French Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">09</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: House Special', 229)">
+                    <span class="combo-tag">Premium</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">HOUSE<br>SPECIAL</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Gold Coin (6P) + French Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹229</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">10</span>
                     </div>
                 </div>
             </div>
@@ -726,13 +820,28 @@
             updateCartDisplay();
         }
 
+        // Promo engine — returns { paidQty, freeQty, total }
+        function getPromo(item) {
+            const { name, price, qty } = item;
+            let freeQty = 0;
+            if (name === 'Chicken Strips (4 pcs)') {
+                // BOGO: every 2nd one is free
+                freeQty = Math.floor(qty / 2);
+            } else if (name === 'Chicken Biryani (Half)' || name === 'Chicken Biryani (Full)') {
+                // Buy 2 Get 1: every 3rd is free
+                freeQty = Math.floor(qty / 3);
+            }
+            const paidQty = qty - freeQty;
+            return { freeQty, paidQty, total: paidQty * price };
+        }
+
         function updateCartDisplay() {
             const emptyMsg   = document.getElementById('empty-msg');
             const container  = document.getElementById('cart-content');
             const clearBtn   = document.getElementById('clear-cart-btn');
             const items      = Object.values(cart);
             const totalQty   = items.reduce((sum, i) => sum + i.qty, 0);
-            const total      = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+            const total      = items.reduce((sum, i) => sum + getPromo(i).total, 0);
 
             // Update total & badge
             document.getElementById('cart-total').innerText = '₹' + total;
@@ -751,20 +860,31 @@
             } else {
                 emptyMsg.style.display = 'none';
                 items.forEach(item => {
-                    // Escape name for use in inline onclick
                     const safeName = item.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                    const { freeQty, total: itemTotal } = getPromo(item);
+                    const originalTotal = item.price * item.qty;
+                    const hasDiscount = freeQty > 0;
+
+                    const promoBadge = hasDiscount
+                        ? `<span style="color:#25D366;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🎉 ${freeQty} FREE</span>`
+                        : `<span class="text-xs text-white/30">₹${item.price} each</span>`;
+
+                    const priceDisplay = hasDiscount
+                        ? `<span style="color:rgba(255,255,255,0.2);text-decoration:line-through;font-size:10px;">₹${originalTotal}</span> <span style="color:#FFB800;font-weight:700;">₹${itemTotal}</span>`
+                        : `<span style="color:#FFB800;font-weight:700;">₹${itemTotal}</span>`;
+
                     const div = document.createElement('div');
                     div.className = 'cart-item flex justify-between items-center bg-white/5 p-4 rounded border border-white/10 animate-slide-in';
                     div.innerHTML = `
                         <div class="flex-1 min-w-0 mr-3">
                             <p class="font-bold text-sm uppercase tracking-wider leading-tight">${item.name}</p>
-                            <p class="text-xs text-white/30 mt-0.5">₹${item.price} each</p>
+                            <div class="mt-0.5">${promoBadge}</div>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button onclick="removeOne('${safeName}')" class="w-7 h-7 rounded-full border border-white/20 text-white/50 hover:border-[#FF4D00] hover:text-[#FF4D00] font-bold flex items-center justify-center transition-colors">−</button>
                             <span class="font-heading text-xl w-5 text-center leading-none">${item.qty}</span>
                             <button onclick="addOne('${safeName}')" class="w-7 h-7 rounded-full border border-white/20 text-white/50 hover:border-[#FF4D00] hover:text-[#FF4D00] font-bold flex items-center justify-center transition-colors">+</button>
-                            <span class="text-xs font-bold text-[#FFB800] w-12 text-right">₹${item.price * item.qty}</span>
+                            <div class="text-right w-16 text-xs">${priceDisplay}</div>
                         </div>
                     `;
                     container.appendChild(div);
@@ -787,8 +907,12 @@
             }
             const ref = generateOrderRef();
             let text = `Hi HOTBOXX! PICKUP ORDER ${ref}\n\n`;
-            items.forEach(item => text += `• ${item.name} x${item.qty} — ₹${item.price * item.qty}\n`);
-            const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+            items.forEach(item => {
+                const { freeQty, total: itemTotal } = getPromo(item);
+                const promoNote = freeQty > 0 ? ` (${freeQty} FREE — DEAL OF THE MONTH)` : '';
+                text += `• ${item.name} x${item.qty}${promoNote} — ₹${itemTotal}\n`;
+            });
+            const total = items.reduce((s, i) => s + getPromo(i).total, 0);
             text += `\nTotal: ₹${total}\n\nPlease confirm ${ref} and text me when it's ready!`;
             window.open(`https://wa.me/918876520650?text=${encodeURIComponent(text)}`);
         }
