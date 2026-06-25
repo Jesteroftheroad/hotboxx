@@ -249,6 +249,31 @@
         }
         .menu-sub-header:first-child { margin-top: 0; }
 
+        /* ─── Pickup / Delivery Toggle ─── */
+        .order-mode-toggle { display: flex; background: #0a0a0a; border: 1px solid #222; border-radius: 2px; overflow: hidden; margin-bottom: 1rem; }
+        .order-mode-btn { flex: 1; padding: 0.6rem 0.75rem; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; background: transparent; color: rgba(255,255,255,0.3); border: none; cursor: pointer; transition: all 0.2s ease; }
+        .order-mode-btn.active { background: var(--hot-orange); color: #fff; }
+        #delivery-address-wrap { display: none; margin-bottom: 0.75rem; }
+        #delivery-address-wrap.show { display: block; }
+        #delivery-address { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; color: #fff; padding: 0.65rem 0.75rem; font-family: 'Oswald', sans-serif; font-size: 12px; resize: none; outline: none; transition: border-color 0.2s; border-radius: 2px; }
+        #delivery-address:focus { border-color: var(--hot-orange); }
+        #delivery-address::placeholder { color: rgba(255,255,255,0.2); }
+        .delivery-savings-tag { display: none; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); color: #25D366; font-size: 9px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 0.45rem 0.75rem; text-align: center; margin-bottom: 0.75rem; }
+        .delivery-savings-tag.show { display: block; }
+
+        /* ─── Delivery Section Cards ─── */
+        .delivery-tier-card { border: 1px solid #1e1e1e; padding: 2rem 1.75rem; position: relative; background: #0d0d0d; transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
+        .delivery-tier-card:hover { transform: translateY(-4px); }
+        .delivery-tier-card.aggregator:hover { border-color: rgba(255,255,255,0.1); }
+        .delivery-tier-card.direct { border-color: var(--hot-orange); }
+        .delivery-tier-card.direct:hover { box-shadow: 0 0 50px rgba(255,77,0,0.18); }
+        @keyframes direct-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,77,0,0.2); } 50% { box-shadow: 0 0 28px 4px rgba(255,77,0,0.08); } }
+        .delivery-tier-card.direct { animation: direct-glow 3s infinite; }
+        .tier-save-badge { position: absolute; top: -1px; right: -1px; background: var(--hot-orange); color: #fff; font-size: 8px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; font-family: 'Oswald', sans-serif; }
+
+        /* ─── Direct Order note in hero ─── */
+        .direct-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(37,211,102,0.35); color: #25D366; font-size: 9px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 0.45rem 1.1rem; }
+
         @media print { .no-print { display: none !important; } }
     </style>
 </head>
@@ -272,14 +297,24 @@
             <p id="empty-msg" class="text-white/20 text-center py-20 font-marker text-xl">Your box is empty...</p>
         </div>
         <div class="p-6 border-t border-white/10 bg-[#111]">
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-white/40 font-bold uppercase tracking-widest text-[10px]">Total Pickup Amount</span>
+            <div class="order-mode-toggle">
+                <button id="mode-pickup" class="order-mode-btn active" onclick="setOrderMode('pickup')">🏃 PICKUP</button>
+                <button id="mode-delivery" class="order-mode-btn" onclick="setOrderMode('delivery')">🛵 DELIVERY</button>
+            </div>
+            <div id="delivery-address-wrap">
+                <textarea id="delivery-address" rows="2" placeholder="Enter your full delivery address..."></textarea>
+            </div>
+            <div id="delivery-savings-tag" class="delivery-savings-tag">
+                ✓ No platform markup — you save up to 40% vs. Swiggy / Zomato
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span id="cart-mode-label" class="text-white/40 font-bold uppercase tracking-widest text-[10px]">Total Pickup Amount</span>
                 <span id="cart-total" class="text-3xl font-bold text-[#FFB800]">₹0</span>
             </div>
-            <button onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-4 text-center rounded-sm font-heading text-xl shadow-lg hover:opacity-90 transition-opacity">
+            <button id="whatsapp-btn" onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-4 text-center rounded-sm font-heading text-xl shadow-lg hover:opacity-90 transition-opacity">
                 CONFIRM VIA WHATSAPP
             </button>
-            <p class="text-[9px] text-white/30 text-center mt-4 uppercase tracking-[2px] font-bold">
+            <p id="cart-confirm-note" class="text-[9px] text-white/30 text-center mt-4 uppercase tracking-[2px] font-bold">
                 WE WILL TEXT YOU WHEN YOUR FOOD IS READY!
             </p>
         </div>
@@ -344,9 +379,16 @@
             <h1 class="font-heading text-8xl md:text-[12rem] leading-none mb-2 animate-flame">HOTBOXX</h1>
             <p class="font-marker text-2xl md:text-4xl text-white/90 mb-10 -rotate-2 tracking-widest uppercase">Smoked. Fried. Certified.</p>
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <!-- FIX: btn-fire is now defined in CSS -->
                 <a href="#full-spread" class="btn-fire px-12 py-4 text-xl rounded-sm w-full md:w-auto">View Menu</a>
                 <button onclick="toggleCart()" class="border-2 border-white px-12 py-4 text-xl rounded-sm hover:bg-white hover:text-black transition-all w-full md:w-auto uppercase font-bold">Pickup Order</button>
+            </div>
+            <div class="mt-6 flex items-center justify-center gap-4">
+                <div class="h-px w-12 bg-white/10"></div>
+                <button onclick="openCartDelivery()" class="direct-pill hover:border-[#25D366] transition-colors">
+                    <span class="h-1.5 w-1.5 rounded-full bg-[#25D366] animate-pulse"></span>
+                    Order direct &amp; save up to 40% vs. Swiggy / Zomato
+                </button>
+                <div class="h-px w-12 bg-white/10"></div>
             </div>
         </div>
     </section>
@@ -359,31 +401,39 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Deal 1: BOGO Chicken Strips -->
-                <div class="deal-card reveal">
-                    <span class="deal-badge">🔥 BOGO</span>
-                    <h3 class="font-heading text-5xl text-white uppercase leading-none mb-3">CHICKEN<br>STRIPS</h3>
-                    <p class="text-white/50 text-sm leading-relaxed mb-6">Buy ONE plate of Chicken Strips, get the SECOND completely free. Double the crunch, same price. Valid on dine-in &amp; pickup.</p>
+                <!-- Deal 1: Summer Drinks 50% OFF — Direct Order Exclusive -->
+                <div class="deal-card deal-glow reveal" style="border-color:rgba(255,184,0,0.25);">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="deal-badge" style="background:#1a6b3a;">☀️ SUMMER SPECIAL</span>
+                    </div>
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                        <h3 class="font-heading text-5xl text-white uppercase leading-none">ALL<br>DRINKS</h3>
+                        <span class="shrink-0 mt-1 inline-block bg-[#25D366] text-black text-[8px] font-black uppercase tracking-[2px] px-2 py-1">DIRECT ONLY</span>
+                    </div>
+                    <p class="text-white/50 text-sm leading-relaxed mb-6">Silchar summers are brutal. Every drink on the menu — half price when you order direct. Skip the apps, stay cool, save big.</p>
                     <div class="flex items-end justify-between border-t border-white/5 pt-4">
                         <div>
-                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold line-through">Pay for 2</p>
-                            <p class="font-heading text-4xl text-[#FFB800]">PAY FOR 1</p>
+                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold line-through">Full price on Swiggy / Zomato</p>
+                            <p class="font-heading text-4xl text-[#FFB800]">50% OFF <span class="text-white/30 text-2xl">all drinks</span></p>
                         </div>
-                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-white/20 border border-white/10 px-3 py-1">Pickup &amp; Dine-in</span>
+                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-[#25D366] border border-[#25D366]/30 px-3 py-1">This Month</span>
                     </div>
                 </div>
 
-                <!-- Deal 2: Buy 2 Get 1 Biryani -->
-                <div class="deal-card reveal">
-                    <span class="deal-badge">🍚 BUY 2 GET 1</span>
-                    <h3 class="font-heading text-5xl text-white uppercase leading-none mb-3">CHICKEN<br>BIRYANI</h3>
-                    <p class="text-white/50 text-sm leading-relaxed mb-6">Order TWO plates of our ₹99 Chicken Biryani and the third one is on us. Perfect for a squad pickup — feed three, pay for two.</p>
+                <!-- Deal 4: Free Tandoori Roti with Chicken Butter Masala — Direct Order Exclusive -->
+                <div class="deal-card reveal" style="border-color:rgba(255,77,0,0.25);">
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                        <span class="deal-badge">🫓 FREE GIFT</span>
+                        <span class="shrink-0 mt-5 inline-block bg-[#25D366] text-black text-[8px] font-black uppercase tracking-[2px] px-2 py-1">DIRECT ONLY</span>
+                    </div>
+                    <h3 class="font-heading text-5xl text-white uppercase leading-none mb-3">FREE<br>TANDOORI ROTI</h3>
+                    <p class="text-white/50 text-sm leading-relaxed mb-6">Order any Chicken Butter Masala — Half or Full — and we'll throw in a hot Tandoori Roti, on us. Exclusive to direct orders only, can't get this on Swiggy or Zomato.</p>
                     <div class="flex items-end justify-between border-t border-white/5 pt-4">
                         <div>
-                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold">3 plates for</p>
-                            <p class="font-heading text-4xl text-[#FFB800]">₹198 <span class="text-white/20 text-2xl line-through">₹297</span></p>
+                            <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold">With any</p>
+                            <p class="font-heading text-4xl text-[#FFB800]">CHICKEN BUTTER MASALA</p>
                         </div>
-                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-white/20 border border-white/10 px-3 py-1">Pickup Only</span>
+                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-[#25D366] border border-[#25D366]/30 px-3 py-1">Auto in cart</span>
                     </div>
                 </div>
             </div>
@@ -395,31 +445,42 @@
         <div class="grunge-overlay opacity-20"></div>
         <div class="max-w-7xl mx-auto relative z-10">
             <h2 class="font-heading text-6xl mb-16 text-center tracking-tighter uppercase reveal">THE SIGNATURES</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <!-- FIX: food-card is now defined in CSS -->
-                <div class="food-card p-6 rounded-lg group reveal">
-                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
-                         <img src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
-                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-black font-bold px-3 py-1 text-xs rotate-12 shadow-xl tracking-tighter">BEST SELLER</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Grill -->
+                <div class="food-card p-5 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
+                        <img src="images/grill.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <div class="absolute top-4 right-4 bg-[#FF4D00] text-white font-bold px-3 py-1 text-xs rotate-12 shadow-xl tracking-tighter">BEST SELLER</div>
                     </div>
-                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">BARBEQUE CHICKEN</h3>
-                    <p class="text-white/50 text-sm leading-relaxed">Our pit-smoked legend. Charred perfection in every bite, available in Qtr, Half, or Full stacks.</p>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">THE GRILL</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Pit-smoked BBQ, Afghani Tikka, Reshmi Kebab, Hariyali. The originals.</p>
                 </div>
-                <div class="food-card p-6 rounded-lg group reveal">
-                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
-                         <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
-                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-3 py-1 text-xs -rotate-12 shadow-xl tracking-tighter">CHEF'S PICK</div>
+                <!-- Momos -->
+                <div class="food-card p-5 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
+                        <img src="images/momos.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-3 py-1 text-xs -rotate-6 shadow-xl tracking-tighter">STREET FAV</div>
                     </div>
-                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">AFGHANI TIKKA</h3>
-                    <p class="text-white/50 text-sm leading-relaxed">Juicy, creamy, and melt-in-the-mouth tandoor mastery. A Silchar favorite.</p>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">DUMPLINGS</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Steamed, fried, pan-fried, chilli, butter tossed — five ways to do it right.</p>
                 </div>
-                <div class="food-card p-6 rounded-lg group reveal">
-                    <div class="overflow-hidden rounded-md mb-6 aspect-square bg-[#111] relative">
-                         <img src="https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
-                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-3 py-1 text-xs rotate-6 shadow-xl tracking-tighter">STREET CLASSIC</div>
+                <!-- Breads -->
+                <div class="food-card p-5 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
+                        <img src="images/breads.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <div class="absolute top-4 right-4 bg-[#FF4D00] text-white font-bold px-3 py-1 text-xs rotate-6 shadow-xl tracking-tighter">FRESH DAILY</div>
                     </div>
-                    <h3 class="text-3xl font-bold mb-3 uppercase tracking-tighter">CHILLI POTATOES</h3>
-                    <p class="text-white/50 text-sm leading-relaxed">Double-fried golden crunch tossed in serious street heat and tangy sauces.</p>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">TANDOOR BREADS</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Plain, Butter, Garlic Naan, Masala Kulcha, Roti — hot from the tandoor, every order.</p>
+                </div>
+                <!-- Gravy -->
+                <div class="food-card p-5 rounded-lg group reveal">
+                    <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
+                        <img src="images/gravy.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-3 py-1 text-xs -rotate-12 shadow-xl tracking-tighter">PAIR WITH BREADS</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">GRAVY & CURRIES</h3>
+                    <p class="text-white/50 text-sm leading-relaxed">Butter Masala, Handi, Bharta, Kosha — slow-cooked curries best torn into with hot naan.</p>
                 </div>
             </div>
         </div>
@@ -434,11 +495,13 @@
                 <h2 class="font-heading text-7xl md:text-8xl mb-6 text-white uppercase tracking-tighter">FULL MENU</h2>
                 <p class="text-[#FF4D00] font-marker text-xl mb-12 italic">Tap any item to add to your box!</p>
 
-                <!-- FIX: pass 'this' to showTab so we don't rely on implicit global event -->
                 <div class="flex justify-center gap-2 overflow-x-auto pb-6 no-scrollbar">
                     <button class="tab-btn active" onclick="showTab('grill', this)">GRILL</button>
                     <button class="tab-btn" onclick="showTab('fried', this)">FRIED</button>
-                    <button class="tab-btn" onclick="showTab('mains', this)">MAINS</button>
+                    <button class="tab-btn" onclick="showTab('gravy', this)">GRAVY</button>
+                    <button class="tab-btn" onclick="showTab('rice', this)">RICE & BIRYANI</button>
+                    <button class="tab-btn" onclick="showTab('momos', this)">MOMOS</button>
+                    <button class="tab-btn" onclick="showTab('breads', this)">BREADS</button>
                     <button class="tab-btn" onclick="showTab('refresh', this)">DRINKS</button>
                 </div>
             </div>
@@ -448,34 +511,34 @@
                 <div id="panel-grill" class="menu-panel block">
                     <div class="grid md:grid-cols-2 gap-x-12">
                         <p class="menu-sub-header">BBQ &amp; Grill</p>
-                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Qtr)', 120)"><span>BBQ Chicken (Qtr)</span> <span>₹120</span></div>
-                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Half)', 240)"><span>BBQ Chicken (Half)</span> <span>₹240</span></div>
-                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Full)', 450)"><span>BBQ Chicken (Full)</span> <span>₹450</span></div>
-                        <div class="menu-item" onclick="addToCart('Afghani Tikka', 139)"><span>Afghani Tikka <span class="spice-dot">•</span></span> <span>₹139</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Tikka', 129)"><span>Chicken Tikka <span class="spice-dot">••</span></span> <span>₹129</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Hariyali', 119)"><span>Chicken Hariyali <span class="spice-dot">••</span></span> <span>₹119</span></div>
-                        <div class="menu-item" onclick="addToCart('Reshmi Kebab', 129)"><span>Reshmi Kebab <span class="spice-dot">•</span></span> <span>₹129</span></div>
-                        <div class="menu-item" onclick="addToCart('Paneer Tikka (4 pcs)', 110)"><span>Paneer Tikka (4 pcs)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Qtr)', 130)"><span>BBQ Chicken (Qtr)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Half)', 250)"><span>BBQ Chicken (Half)</span> <span>₹250</span></div>
+                        <div class="menu-item" onclick="addToCart('BBQ Chicken (Full)', 460)"><span>BBQ Chicken (Full)</span> <span>₹460</span></div>
+                        <div class="menu-item" onclick="addToCart('Afghani Tikka', 149)"><span>Afghani Tikka <span class="spice-dot">•</span></span> <span>₹149</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Tikka', 139)"><span>Chicken Tikka <span class="spice-dot">••</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Hariyali', 129)"><span>Chicken Hariyali <span class="spice-dot">••</span></span> <span>₹129</span></div>
+                        <div class="menu-item" onclick="addToCart('Reshmi Kebab', 139)"><span>Reshmi Kebab <span class="spice-dot">•</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Tikka (4 pcs)', 120)"><span>Paneer Tikka (4 pcs)</span> <span>₹120</span></div>
                         <p class="menu-sub-header">Rolls &amp; Wraps</p>
                         <div class="menu-item" onclick="addToCart('Egg Roll (Single)', 59)"><span>Egg Roll (Single)</span> <span>₹59</span></div>
                         <div class="menu-item" onclick="addToCart('Egg Roll (Double)', 69)"><span>Egg Roll (Double)</span> <span>₹69</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Roll', 79)"><span>Chicken Roll <span class="item-label">Top Sell</span></span> <span>₹79</span></div>
                         <div class="menu-item" onclick="addToCart('Egg Chicken Roll', 99)"><span>Egg Chicken Roll</span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Mughlai Paratha (Egg)', 80)"><span>Mughlai Paratha (Egg)</span> <span>₹80</span></div>
-                        <div class="menu-item" onclick="addToCart('Mughlai Paratha (Chicken)', 100)"><span>Mughlai Paratha (Chicken)</span> <span>₹100</span></div>
+                        <div class="menu-item" onclick="addToCart('Mughlai Parota (Egg)', 80)"><span>Mughlai Parota (Egg)</span> <span>₹80</span></div>
+                        <div class="menu-item" onclick="addToCart('Mughlai Parota (Chicken)', 100)"><span>Mughlai Parota (Chicken)</span> <span>₹100</span></div>
                     </div>
                 </div>
                 <!-- FRIED PANEL -->
                 <div id="panel-fried" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
                         <div class="menu-item" onclick="addToCart('Chicken Strips (4 pcs)', 199)"><span>Chicken Strips (4 pcs) <span class="item-label" style="background:#FFB800;color:black;">BOGO</span></span> <span>₹199</span></div>
-                        <div class="menu-item" onclick="addToCart('Hot Wings (4 pcs)', 99)"><span>Hot Wings (4 pcs)</span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Peri-Peri Wings (4 pcs)', 99)"><span>Peri-Peri Wings (4 pcs)</span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Drums of Heaven (3 pcs)', 110)"><span>Drums of Heaven (3 pcs)</span> <span>₹110</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Popcorn (Reg)', 120)"><span>Chicken Popcorn (Reg)</span> <span>₹120</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (6 pcs)', 130)"><span>Chicken Pakoda (6 pcs)</span> <span>₹130</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (12 pcs)', 220)"><span>Chicken Pakoda (12 pcs)</span> <span>₹220</span></div>
-                        <div class="menu-item" onclick="addToCart('Fish Finger (4 pcs)', 139)"><span>Fish Finger (4 pcs)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Hot Wings (4 pcs)', 110)"><span>Hot Wings (4 pcs)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Peri-Peri Wings (4 pcs)', 110)"><span>Peri-Peri Wings (4 pcs)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Drums of Heaven (3 pcs)', 120)"><span>Drums of Heaven (3 pcs)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Popcorn (Reg)', 130)"><span>Chicken Popcorn (Reg)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (6 pcs)', 140)"><span>Chicken Pakoda (6 pcs)</span> <span>₹140</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Pakoda (12 pcs)', 230)"><span>Chicken Pakoda (12 pcs)</span> <span>₹230</span></div>
+                        <div class="menu-item" onclick="addToCart('Fish Finger (4 pcs)', 149)"><span>Fish Finger (4 pcs)</span> <span>₹149</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Gold Coin (6 pcs)', 200)"><span>Chicken Gold Coin (6 pcs)</span> <span>₹200</span></div>
                         <div class="menu-item" onclick="addToCart('Chicken Nuggets (4 pcs)', 129)"><span>Chicken Nuggets (4 pcs)</span> <span>₹129</span></div>
                         <div class="menu-item" onclick="addToCart('Spring Rolls (4 pcs)', 99)"><span>Spring Rolls (4 pcs)</span> <span>₹99</span></div>
@@ -483,58 +546,103 @@
                         <div class="menu-item" onclick="addToCart('French Fries (Double)', 110)"><span>French Fries (Double)</span> <span>₹110</span></div>
                         <div class="menu-item" onclick="addToCart('Crispy Chilli Potatoes (S)', 69)"><span>Crispy Chilli Potatoes (S)</span> <span>₹69</span></div>
                         <div class="menu-item" onclick="addToCart('Crispy Chilli Potatoes (D)', 119)"><span>Crispy Chilli Potatoes (D)</span> <span>₹119</span></div>
-                        <div class="menu-item" onclick="addToCart('Whole Fried Chicken', 450)"><span>Whole Fried Chicken</span> <span>₹450</span></div>
+                        <div class="menu-item" onclick="addToCart('Whole Fried Chicken', 460)"><span>Whole Fried Chicken</span> <span>₹460</span></div>
                     </div>
                 </div>
-                <!-- MAINS PANEL -->
-                <div id="panel-mains" class="menu-panel hidden">
+                <!-- GRAVY PANEL -->
+                <div id="panel-gravy" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
-                        <p class="menu-sub-header">Rice &amp; Noodles</p>
-                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (S)', 59)"><span>Veg Fried Rice (S)</span> <span>₹59</span></div>
-                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (F)', 99)"><span>Veg Fried Rice (F)</span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (S)', 69)"><span>Egg Fried Rice (S)</span> <span>₹69</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (F)', 110)"><span>Egg Fried Rice (F)</span> <span>₹110</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (S)', 79)"><span>Chicken Fried Rice (S)</span> <span>₹79</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (F)', 119)"><span>Chicken Fried Rice (F)</span> <span>₹119</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (S)', 89)"><span>Egg Chicken Fried Rice (S)</span> <span>₹89</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (F)', 129)"><span>Egg Chicken Fried Rice (F)</span> <span>₹129</span></div>
-                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (S)', 59)"><span>Veg Fried Noodles (S)</span> <span>₹59</span></div>
-                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (F)', 99)"><span>Veg Fried Noodles (F)</span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (S)', 69)"><span>Egg Fried Noodles (S)</span> <span>₹69</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (F)', 110)"><span>Egg Fried Noodles (F)</span> <span>₹110</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (S)', 79)"><span>Chicken Fried Noodles (S)</span> <span>₹79</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (F)', 119)"><span>Chicken Fried Noodles (F)</span> <span>₹119</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (S)', 89)"><span>Egg Chicken Fried Noodles (S)</span> <span>₹89</span></div>
-                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (F)', 129)"><span>Egg Chicken Fried Noodles (F)</span> <span>₹129</span></div>
+                        <p class="menu-sub-header">Dry &amp; Semi-Dry</p>
+                        <div class="menu-item" onclick="addToCart('Chilli Chicken (6 pcs)', 139)"><span>Chilli Chicken (6 pcs) <span class="spice-dot">••</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Manchurian (6 pcs)', 139)"><span>Chicken Manchurian (6 pcs)</span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Schezwan Chicken (6 pcs)', 139)"><span>Schezwan Chicken (6 pcs) <span class="spice-dot">•</span></span> <span>₹139</span></div>
+                        <div class="menu-item" onclick="addToCart('Chilli Fish (6 pcs)', 189)"><span>Chilli Fish (6 pcs) <span class="spice-dot">••</span></span> <span>₹189</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Manchurian', 79)"><span>Veg Manchurian</span> <span>₹79</span></div>
+                        <p class="menu-sub-header">Chicken Curries</p>
+                        <div class="menu-item" onclick="addToCart('Chicken Bharta (Half)', 160)"><span>Chicken Bharta (Half)</span> <span>₹160</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Bharta (Full)', 310)"><span>Chicken Bharta (Full)</span> <span>₹310</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Kosha (3 pcs)', 150)"><span>Chicken Kosha (3 pcs)</span> <span>₹150</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Kosha (6 pcs)', 250)"><span>Chicken Kosha (6 pcs)</span> <span>₹250</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Handi (Half)', 180)"><span>Chicken Handi (Half)</span> <span>₹180</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Handi (Full)', 300)"><span>Chicken Handi (Full)</span> <span>₹300</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Butter Masala (Half)', 200)"><span>Chicken Butter Masala (Half)</span> <span>₹200</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Butter Masala (Full)', 350)"><span>Chicken Butter Masala (Full)</span> <span>₹350</span></div>
+                        <p class="menu-sub-header">Paneer Curries</p>
+                        <div class="menu-item" onclick="addToCart('Paneer Butter Masala (Half)', 150)"><span>Paneer Butter Masala (Half)</span> <span>₹150</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Butter Masala (Full)', 280)"><span>Paneer Butter Masala (Full)</span> <span>₹280</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Handi (Half)', 170)"><span>Paneer Handi (Half)</span> <span>₹170</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Handi (Full)', 300)"><span>Paneer Handi (Full)</span> <span>₹300</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Bharta (Half)', 120)"><span>Paneer Bharta (Half)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Paneer Bharta (Full)', 220)"><span>Paneer Bharta (Full)</span> <span>₹220</span></div>
+                    </div>
+                </div>
+                <!-- RICE & BIRYANI PANEL -->
+                <div id="panel-rice" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <p class="menu-sub-header">Fried Rice</p>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (H)', 69)"><span>Veg Fried Rice (H)</span> <span>₹69</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Rice (F)', 110)"><span>Veg Fried Rice (F)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (H)', 79)"><span>Egg Fried Rice (H)</span> <span>₹79</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Rice (F)', 120)"><span>Egg Fried Rice (F)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (H)', 89)"><span>Chicken Fried Rice (H)</span> <span>₹89</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Rice (F)', 130)"><span>Chicken Fried Rice (F)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (H)', 99)"><span>Egg Chicken Fried Rice (H)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Rice (F)', 140)"><span>Egg Chicken Fried Rice (F)</span> <span>₹140</span></div>
+                        <p class="menu-sub-header">Fried Noodles</p>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (H)', 69)"><span>Veg Fried Noodles (H)</span> <span>₹69</span></div>
+                        <div class="menu-item" onclick="addToCart('Veg Fried Noodles (F)', 110)"><span>Veg Fried Noodles (F)</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (H)', 79)"><span>Egg Fried Noodles (H)</span> <span>₹79</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Fried Noodles (F)', 120)"><span>Egg Fried Noodles (F)</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (H)', 89)"><span>Chicken Fried Noodles (H)</span> <span>₹89</span></div>
+                        <div class="menu-item" onclick="addToCart('Chicken Fried Noodles (F)', 130)"><span>Chicken Fried Noodles (F)</span> <span>₹130</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (H)', 99)"><span>Egg Chicken Fried Noodles (H)</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Chicken Fried Noodles (F)', 140)"><span>Egg Chicken Fried Noodles (F)</span> <span>₹140</span></div>
+                        <div class="menu-item" style="cursor:default;color:rgba(255,255,255,0.25)"><span>Upgrade: Butter Garlic / Chilli Garlic / Schezwan</span> <span>+₹10</span></div>
                         <p class="menu-sub-header">Biryani</p>
-                        <div class="menu-item" onclick="addToCart('Chicken Biryani (Half)', 99)"><span>Chicken Biryani (Half) <span class="item-label">Everyday ₹99</span></span> <span>₹99</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Biryani (Full)', 199)"><span>Chicken Biryani (Full)</span> <span>₹199</span></div>
-                        <p class="menu-sub-header">Momos</p>
+                        <div class="menu-item" onclick="addToCart('Chicken Biryani (Everyday Special)', 109)"><span>Chicken Biryani <span class="item-label">Everyday ₹109</span></span> <span>₹109</span></div>
+                        <div class="menu-item" onclick="addToCart('Aloo Biryani', 60)"><span>Aloo Biryani</span> <span>₹60</span></div>
+                        <div class="menu-item" onclick="addToCart('Egg Biryani', 80)"><span>Egg Biryani</span> <span>₹80</span></div>
+                        <div class="menu-item" onclick="addToCart('Raju Gari Chicken Biryani', 120)"><span>Raju Gari Chicken Biryani</span> <span>₹120</span></div>
+                        <div class="menu-item" style="cursor:default"><span>Mutton Biryani</span> <span class="text-white/30">MRP</span></div>
+                    </div>
+                </div>
+                <!-- MOMOS PANEL -->
+                <div id="panel-momos" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
                         <div class="menu-item" onclick="addToCart('Steamed Chicken Momo (6P)', 50)"><span>Steamed Chicken Momo (6P)</span> <span>₹50</span></div>
                         <div class="menu-item" onclick="addToCart('Fried Chicken Momo (6P)', 70)"><span>Fried Chicken Momo (6P)</span> <span>₹70</span></div>
                         <div class="menu-item" onclick="addToCart('Pan-Fried Chicken Momo', 80)"><span>Pan-Fried Chicken Momo</span> <span>₹80</span></div>
                         <div class="menu-item" onclick="addToCart('Chilli Fried Chicken Momo', 100)"><span>Chilli Fried Chicken Momo <span class="spice-dot">••</span></span> <span>₹100</span></div>
                         <div class="menu-item" onclick="addToCart('Butter Tossed Chicken Momo', 100)"><span>Butter Tossed Chicken Momo</span> <span>₹100</span></div>
-                        <p class="menu-sub-header">Gravy</p>
-                        <div class="menu-item" onclick="addToCart('Chilli Chicken (6 pcs)', 139)"><span>Chilli Chicken (6 pcs) <span class="spice-dot">••</span></span> <span>₹139</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Manchurian (6 pcs)', 139)"><span>Chicken Manchurian (6 pcs)</span> <span>₹139</span></div>
-                        <div class="menu-item" onclick="addToCart('Schezwan Chicken (6 pcs)', 139)"><span>Schezwan Chicken (6 pcs) <span class="spice-dot">•</span></span> <span>₹139</span></div>
-                        <div class="menu-item" onclick="addToCart('Chilli Fish (6 pcs)', 179)"><span>Chilli Fish (6 pcs) <span class="spice-dot">••</span></span> <span>₹179</span></div>
-                        <div class="menu-item" onclick="addToCart('Veg Manchurian', 79)"><span>Veg Manchurian</span> <span>₹79</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Bharta', 129)"><span>Chicken Bharta</span> <span>₹129</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken Kosha (3 pcs)', 129)"><span>Chicken Kosha (3 pcs)</span> <span>₹129</span></div>
-                        <div class="menu-item" onclick="addToCart('Chicken SC (3 pcs)', 119)"><span>Chicken SC (3 pcs)</span> <span>₹119</span></div>
+                    </div>
+                </div>
+                <!-- BREADS PANEL -->
+                <div id="panel-breads" class="menu-panel hidden">
+                    <div class="grid md:grid-cols-2 gap-x-12">
+                        <p class="menu-sub-header">Tandoor Breads</p>
+                        <div class="menu-item" onclick="addToCart('Plain Naan', 60)"><span>Plain Naan</span> <span>₹60</span></div>
+                        <div class="menu-item" onclick="addToCart('Butter Naan', 90)"><span>Butter Naan</span> <span>₹90</span></div>
+                        <div class="menu-item" onclick="addToCart('Butter Garlic Naan', 110)"><span>Butter Garlic Naan</span> <span>₹110</span></div>
+                        <div class="menu-item" onclick="addToCart('Masala Kulcha', 120)"><span>Masala Kulcha</span> <span>₹120</span></div>
+                        <div class="menu-item" onclick="addToCart('Tandoori Roti', 30)"><span>Tandoori Roti</span> <span>₹30</span></div>
+                        <div class="menu-item" onclick="addToCart('Tandoori Butter Roti', 40)"><span>Tandoori Butter Roti</span> <span>₹40</span></div>
+                        <p class="menu-sub-header">Add-Ons</p>
+                        <div class="menu-item" onclick="addToCart('Extra Aloo', 8)"><span>Extra Aloo</span> <span>₹8</span></div>
+                        <div class="menu-item" onclick="addToCart('Extra Egg', 20)"><span>Extra Egg</span> <span>₹20</span></div>
+                        <div class="menu-item" onclick="addToCart('Extra Chicken Piece', 49)"><span>Extra Chicken Piece</span> <span>₹49</span></div>
+                        <div class="menu-item" style="cursor:default"><span>Extra Mutton Piece</span> <span class="text-white/30">MRP</span></div>
                     </div>
                 </div>
                 <!-- DRINKS PANEL -->
                 <div id="panel-refresh" class="menu-panel hidden">
                     <div class="grid md:grid-cols-2 gap-x-12">
-                        <div class="menu-item" onclick="addToCart('Hangover Soda', 49)"><span>Hangover Soda</span> <span>₹49</span></div>
-                        <div class="menu-item" onclick="addToCart('Masala Soda', 49)"><span>Masala Soda</span> <span>₹49</span></div>
-                        <div class="menu-item" onclick="addToCart('Mojito (Virgin)', 49)"><span>Mojito (Virgin)</span> <span>₹49</span></div>
+                        <div class="menu-item" onclick="addToCart('Mango Blast Soda', 99)"><span>Mango Blast Soda</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Lychee Twister', 99)"><span>Lychee Twister</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Blueberry Burst', 99)"><span>Blueberry Burst</span> <span>₹99</span></div>
+                        <div class="menu-item" onclick="addToCart('Virgin Mojito', 49)"><span>Virgin Mojito</span> <span>₹49</span></div>
                         <div class="menu-item" onclick="addToCart('Coffee', 20)"><span>Coffee</span> <span>₹20</span></div>
                         <div class="menu-item" onclick="addToCart('Lemon Tea', 10)"><span>Lemon Tea</span> <span>₹10</span></div>
-                        <div class="menu-item" onclick="addToCart('Special Tea', 15)"><span>Special Tea</span> <span>₹15</span></div>
+                        <div class="menu-item" onclick="addToCart('Tea', 15)"><span>Tea</span> <span>₹15</span></div>
                         <div class="menu-item cursor-default"><span>Coke / Sprite</span> <span class="text-white/30">MRP</span></div>
                         <div class="menu-item cursor-default"><span>Packaged Water</span> <span class="text-white/30">MRP</span></div>
                     </div>
@@ -552,66 +660,66 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-white/10 border-t border-white/10">
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Classic', 169)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Classic', 179)">
                     <span class="combo-tag">The Legend</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">HOTBOXX<br>CLASSIC</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Tikka (4P) + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">01</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fried Feast', 219)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fried Feast', 229)">
                     <span class="combo-tag">Full Belly</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">FRIED<br>FEAST</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Fry (2P) + Pakoda (4P) + Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹219</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹229</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">02</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Momo Meal', 119)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Momo Meal', 129)">
                     <span class="combo-tag">Snack Mix</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">MOMO<br>MEAL</h4>
-                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Fried Chicken Momos (6P) + Drink</p>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Fried Chicken Momos (6P) + Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹119</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹129</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">03</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Rice & Fire', 169)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Rice & Fire', 179)">
                     <span class="combo-tag">Wok Heat</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">RICE &<br>FIRE</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Fried Rice + Chilli Chicken (3P) + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">04</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fiery Wings', 169)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Fiery Wings', 179)">
                     <span class="combo-tag">Hot</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">FIERY<br>WINGS</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Hot Wings (6P) + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">07</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Roll & Sip', 139)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Roll & Sip', 149)">
                     <span class="combo-tag">Quick</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">ROLL &<br>SIP</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Roll + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹139</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹149</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">08</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Street Wok', 169)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Street Wok', 179)">
                     <span class="combo-tag">Noodle Night</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">STREET<br>WOK</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Noodles + Chicken Manchurian (3P) + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">05</span>
                     </div>
                 </div>
@@ -624,22 +732,40 @@
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">06</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Turf & Turf', 169)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Turf & Turf', 179)">
                     <span class="combo-tag">Crunch</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">TURF &<br>TURF</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Popcorn + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹169</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">09</span>
                     </div>
                 </div>
-                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: House Special', 229)">
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: House Special', 239)">
                     <span class="combo-tag">Premium</span>
                     <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">HOUSE<br>SPECIAL</h4>
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Gold Coin (6P) + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
-                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹229</span>
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹239</span>
                         <span class="text-white/10 text-xs font-bold tracking-widest italic">10</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Chicken Bharta', 240)">
+                    <span class="combo-tag">Gravy Lover</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white uppercase leading-none">BHARTA<br>FEAST</h4>
+                    <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Naan + Chicken Bharta + Coke</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹240</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">11</span>
+                    </div>
+                </div>
+                <div class="combo-grid-item border-r border-b border-white/10 reveal" style="cursor:default;opacity:0.75;">
+                    <span class="combo-tag" style="background:#555;">Coming Soon</span>
+                    <h4 class="font-heading text-4xl mb-4 text-white/60 uppercase leading-none">BUTTER<br>CHICKEN<br>FRIES</h4>
+                    <p class="text-[10px] text-white/30 uppercase tracking-[2px] mb-8 min-h-[40px]">Butter Chicken Fries + Drink</p>
+                    <div class="flex items-end justify-between">
+                        <span class="text-lg font-bold tracking-widest uppercase" style="color:#888;letter-spacing:3px;">DROPPING<br>SOON</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">12</span>
                     </div>
                 </div>
             </div>
@@ -694,18 +820,56 @@
     <!-- Delivery CTA -->
     <section class="py-24 px-6 bg-charcoal relative no-print overflow-hidden">
         <div class="grunge-overlay"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h2 class="font-marker text-5xl text-[#FF4D00] mb-8">DELIVERY MODE?</h2>
-            <p class="text-xl text-white/60 mb-12">Search "Hotboxx" on Swiggy or Zomato and get the heat delivered to your doorstep.</p>
-            <div class="flex flex-wrap justify-center gap-6">
-                <div class="delivery-pill">
-                    <span class="h-2 w-2 rounded-full bg-[#FC8019] animate-pulse"></span>
-                    <span class="font-bold text-sm tracking-widest uppercase">SWIGGY</span>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16 reveal">
+                <p class="text-[#FF4D00] font-bold text-xs uppercase tracking-[4px] mb-3">How to Get Your Fix</p>
+                <h2 class="font-heading text-6xl md:text-8xl text-white uppercase tracking-tighter leading-none mb-4">DELIVERY MODE</h2>
+                <p class="text-white/40 text-sm">Three ways to get the heat to you. One is a no-brainer.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch reveal">
+
+                <!-- Swiggy -->
+                <div class="delivery-tier-card aggregator">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="h-2.5 w-2.5 rounded-full bg-[#FC8019] animate-pulse"></span>
+                        <span class="font-heading text-3xl text-white tracking-wider">SWIGGY</span>
+                    </div>
+                    <p class="text-white/30 text-xs uppercase tracking-[2px] leading-relaxed flex-1">Search "Hotboxx" on Swiggy for standard delivery via the platform.</p>
+                    <div class="mt-8 pt-4 border-t border-white/5">
+                        <p class="text-[9px] text-white/20 font-bold uppercase tracking-[2px]">Platform fee + surge pricing applies</p>
+                    </div>
                 </div>
-                <div class="delivery-pill">
-                    <span class="h-2 w-2 rounded-full bg-[#E23744] animate-pulse"></span>
-                    <span class="font-bold text-sm tracking-widest uppercase">ZOMATO</span>
+
+                <!-- ORDER DIRECT — featured -->
+                <div class="delivery-tier-card direct">
+                    <span class="tier-save-badge">SAVE UP TO 40%</span>
+                    <div class="mb-6 pt-2">
+                        <p class="text-[#FF4D00] text-[9px] font-bold uppercase tracking-[3px] mb-2">Best Way to Order</p>
+                        <span class="font-heading text-3xl text-white tracking-wider">HOTBOXX DIRECT</span>
+                    </div>
+                    <ul class="space-y-3 text-xs text-white/50 flex-1 mb-8">
+                        <li class="flex items-start gap-2"><span class="text-[#25D366] font-black shrink-0">✓</span> Build your order here, confirm on WhatsApp</li>
+                        <li class="flex items-start gap-2"><span class="text-[#25D366] font-black shrink-0">✓</span> Zero platform markup — pay only for the food</li>
+                        <li class="flex items-start gap-2"><span class="text-[#25D366] font-black shrink-0">✓</span> Real-time WhatsApp updates from our team</li>
+                        <li class="flex items-start gap-2"><span class="text-[#25D366] font-black shrink-0">✓</span> We deliver straight to your door</li>
+                    </ul>
+                    <button onclick="openCartDelivery()" class="w-full bg-[#FF4D00] hover:bg-[#D72600] text-white py-3.5 font-heading text-xl uppercase tracking-widest transition-colors">
+                        ORDER &amp; SAVE →
+                    </button>
                 </div>
+
+                <!-- Zomato -->
+                <div class="delivery-tier-card aggregator">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="h-2.5 w-2.5 rounded-full bg-[#E23744] animate-pulse"></span>
+                        <span class="font-heading text-3xl text-white tracking-wider">ZOMATO</span>
+                    </div>
+                    <p class="text-white/30 text-xs uppercase tracking-[2px] leading-relaxed flex-1">Search "Hotboxx" on Zomato for standard delivery via the platform.</p>
+                    <div class="mt-8 pt-4 border-t border-white/5">
+                        <p class="text-[9px] text-white/20 font-bold uppercase tracking-[2px]">Platform fee + surge pricing applies</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -742,13 +906,13 @@
             </div>
         </div>
 
-        <!-- Google Maps -->
+        <!-- Map -->
         <div class="max-w-7xl mx-auto px-6 mt-16">
             <div class="border border-white/5 overflow-hidden" style="height: 280px;">
                 <iframe
-                    src="https://maps.google.com/maps?q=Rangirkhari,+Silchar,+Assam&z=15&output=embed"
-                    width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(0.85);"
-                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=92.7710%2C24.8240%2C92.8010%2C24.8440&layer=mapnik&marker=24.8340%2C92.7860"
+                    width="100%" height="100%" style="border:0; filter: grayscale(1) brightness(0.45) contrast(1.3);"
+                    allowfullscreen="" loading="lazy">
                 </iframe>
             </div>
             <p class="text-center text-white/20 text-[9px] uppercase tracking-[3px] font-bold mt-4">Rangirkhari Point, Silchar, Assam</p>
@@ -758,6 +922,26 @@
     <script>
         // cart is keyed by item name: { 'Item Name': { name, price, qty } }
         let cart = {};
+        let orderMode = 'pickup'; // 'pickup' | 'delivery'
+
+        function setOrderMode(mode) {
+            orderMode = mode;
+            document.getElementById('mode-pickup').classList.toggle('active', mode === 'pickup');
+            document.getElementById('mode-delivery').classList.toggle('active', mode === 'delivery');
+            document.getElementById('delivery-address-wrap').classList.toggle('show', mode === 'delivery');
+            document.getElementById('delivery-savings-tag').classList.toggle('show', mode === 'delivery');
+            document.getElementById('cart-mode-label').innerText = mode === 'pickup' ? 'Total Pickup Amount' : 'Total Delivery Amount';
+            document.getElementById('whatsapp-btn').innerText = mode === 'pickup' ? 'CONFIRM VIA WHATSAPP' : '🛵 DELIVER TO MY DOOR';
+            document.getElementById('cart-confirm-note').innerText = mode === 'pickup'
+                ? 'WE WILL TEXT YOU WHEN YOUR FOOD IS READY!'
+                : 'WE WILL CONFIRM YOUR ORDER & DELIVERY TIME ON WHATSAPP';
+        }
+
+        function openCartDelivery() {
+            setOrderMode('delivery');
+            document.getElementById('cart-panel').classList.add('open');
+            document.getElementById('cart-blur').classList.add('open');
+        }
 
         // Scroll Reveal
         function reveal() {
@@ -820,19 +1004,29 @@
             updateCartDisplay();
         }
 
-        // Promo engine — returns { paidQty, freeQty, total }
+        const DRINK_ITEMS = new Set([
+            'Mango Blast Soda', 'Lychee Twister', 'Blueberry Burst',
+            'Virgin Mojito', 'Coffee', 'Lemon Tea', 'Tea'
+        ]);
+
+        function hasButtaMasala() {
+            return !!(cart['Chicken Butter Masala (Half)'] || cart['Chicken Butter Masala (Full)']);
+        }
+
+        // Promo engine — returns { paidQty, freeQty, effectivePrice, isDrinkDeal, total }
         function getPromo(item) {
             const { name, price, qty } = item;
             let freeQty = 0;
-            if (name === 'Chicken Strips (4 pcs)') {
-                // BOGO: every 2nd one is free
-                freeQty = Math.floor(qty / 2);
-            } else if (name === 'Chicken Biryani (Half)' || name === 'Chicken Biryani (Full)') {
-                // Buy 2 Get 1: every 3rd is free
-                freeQty = Math.floor(qty / 3);
+            let effectivePrice = price;
+            const isDrinkDeal = DRINK_ITEMS.has(name);
+
+            // Summer deal: 50% off all drinks (direct order exclusive)
+            if (isDrinkDeal) {
+                effectivePrice = Math.round(price * 0.5);
             }
+
             const paidQty = qty - freeQty;
-            return { freeQty, paidQty, total: paidQty * price };
+            return { freeQty, paidQty, effectivePrice, isDrinkDeal, total: paidQty * effectivePrice };
         }
 
         function updateCartDisplay() {
@@ -861,13 +1055,18 @@
                 emptyMsg.style.display = 'none';
                 items.forEach(item => {
                     const safeName = item.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-                    const { freeQty, total: itemTotal } = getPromo(item);
+                    const { freeQty, total: itemTotal, effectivePrice, isDrinkDeal } = getPromo(item);
                     const originalTotal = item.price * item.qty;
-                    const hasDiscount = freeQty > 0;
+                    const hasDiscount = freeQty > 0 || isDrinkDeal;
 
-                    const promoBadge = hasDiscount
-                        ? `<span style="color:#25D366;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🎉 ${freeQty} FREE</span>`
-                        : `<span class="text-xs text-white/30">₹${item.price} each</span>`;
+                    let promoBadge;
+                    if (freeQty > 0) {
+                        promoBadge = `<span style="color:#25D366;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🎉 ${freeQty} FREE</span>`;
+                    } else if (isDrinkDeal) {
+                        promoBadge = `<span style="color:#FFB800;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">☀️ 50% OFF — SUMMER DEAL</span>`;
+                    } else {
+                        promoBadge = `<span style="color:rgba(255,255,255,0.3);font-size:11px;">₹${item.price} each</span>`;
+                    }
 
                     const priceDisplay = hasDiscount
                         ? `<span style="color:rgba(255,255,255,0.2);text-decoration:line-through;font-size:10px;">₹${originalTotal}</span> <span style="color:#FFB800;font-weight:700;">₹${itemTotal}</span>`
@@ -889,6 +1088,21 @@
                     `;
                     container.appendChild(div);
                 });
+
+                // Free Tandoori Roti with Chicken Butter Masala (direct order exclusive)
+                if (hasButtaMasala()) {
+                    const rotidiv = document.createElement('div');
+                    rotidiv.className = 'cart-item flex justify-between items-center p-4 rounded animate-slide-in';
+                    rotidiv.style.cssText = 'background:rgba(37,211,102,0.05);border:1px solid rgba(37,211,102,0.25);';
+                    rotidiv.innerHTML = `
+                        <div class="flex-1 min-w-0 mr-3">
+                            <p class="font-bold text-sm uppercase tracking-wider leading-tight" style="color:#25D366;">FREE TANDOORI ROTI</p>
+                            <div class="mt-0.5"><span style="color:#25D366;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🎁 Direct Order Gift</span></div>
+                        </div>
+                        <div class="shrink-0"><span style="color:#25D366;font-weight:700;font-size:14px;">₹0</span></div>
+                    `;
+                    container.appendChild(rotidiv);
+                }
             }
         }
 
@@ -905,15 +1119,38 @@
                 showToast('Add items to your box first!');
                 return;
             }
+            if (orderMode === 'delivery') {
+                const address = document.getElementById('delivery-address').value.trim();
+                if (!address) {
+                    showToast('Please enter your delivery address!');
+                    document.getElementById('delivery-address').focus();
+                    return;
+                }
+            }
             const ref = generateOrderRef();
-            let text = `Hi HOTBOXX! PICKUP ORDER ${ref}\n\n`;
+            const modeLabel = orderMode === 'pickup' ? 'PICKUP' : 'DELIVERY';
+            let text = `Hi HOTBOXX! ${modeLabel} ORDER ${ref}\n\n`;
+            if (orderMode === 'delivery') {
+                const address = document.getElementById('delivery-address').value.trim();
+                text += `📍 DELIVER TO: ${address}\n\n`;
+            }
             items.forEach(item => {
-                const { freeQty, total: itemTotal } = getPromo(item);
-                const promoNote = freeQty > 0 ? ` (${freeQty} FREE — DEAL OF THE MONTH)` : '';
+                const { freeQty, total: itemTotal, isDrinkDeal } = getPromo(item);
+                let promoNote = '';
+                if (freeQty > 0) promoNote = ` (${freeQty} FREE — DEAL OF THE MONTH)`;
+                else if (isDrinkDeal) promoNote = ` (50% OFF — Summer Deal)`;
                 text += `• ${item.name} x${item.qty}${promoNote} — ₹${itemTotal}\n`;
             });
+            if (hasButtaMasala()) {
+                text += `• FREE Tandoori Roti x1 — ₹0 (Direct Order Gift!)\n`;
+            }
             const total = items.reduce((s, i) => s + getPromo(i).total, 0);
-            text += `\nTotal: ₹${total}\n\nPlease confirm ${ref} and text me when it's ready!`;
+            text += `\nTotal: ₹${total}`;
+            if (orderMode === 'delivery') {
+                text += `\n\n🛵 DIRECT DELIVERY — no Swiggy/Zomato. Please confirm ${ref}, share delivery charge & ETA!`;
+            } else {
+                text += `\n\nPlease confirm ${ref} and text me when it's ready!`;
+            }
             window.open(`https://wa.me/918876520650?text=${encodeURIComponent(text)}`);
         }
 
@@ -957,6 +1194,7 @@
             reveal();
             checkShopStatus();
             setInterval(checkShopStatus, 60000);
+            setOrderMode('pickup');
         };
     </script>
 </body>
