@@ -892,8 +892,8 @@
             <div class="space-y-6">
                 <h4 class="font-heading text-2xl text-white uppercase border-b border-white/5 pb-2">Working Hours</h4>
                 <div class="space-y-4 text-[10px] font-bold uppercase tracking-widest">
-                    <div class="flex justify-between"><span>Mon — Sat</span><span class="text-white">05:00 PM - 11:00 PM</span></div>
-                    <div class="flex justify-between text-[#FF4D00]"><span>Sunday</span><span class="text-[#FF4D00]">05:00 PM - 11:30 PM</span></div>
+                    <div class="flex justify-between"><span>Mon — Sat</span><span class="text-white">02:00 PM - 11:00 PM</span></div>
+                    <div class="flex justify-between text-[#FF4D00]"><span>Sunday</span><span class="text-[#FF4D00]">02:00 PM - 11:30 PM</span></div>
                 </div>
             </div>
             <div class="space-y-6">
@@ -1170,9 +1170,9 @@
 
             let open = false;
             if (day === 0) {           // Sunday
-                if (timeVal >= 17 && timeVal < 23.5) open = true;
+                if (timeVal >= 14 && timeVal < 23.5) open = true;
             } else {                   // Mon–Sat
-                if (timeVal >= 17 && timeVal < 23)   open = true;
+                if (timeVal >= 14 && timeVal < 23)   open = true;
             }
 
             if (open) {
