@@ -3,8 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOTBOXX | Smoked. Fried. Certified.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Hotboxx Silchar | Biryani, BBQ &amp; Street Food at Rangirkhari Point</title>
+    <meta name="description" content="Smoked, fried and grilled street food at Rangirkhari Point, Silchar. Chicken biryani ₹120, combos from ₹129. Open daily from 2 PM. Order direct on WhatsApp.">
+    <link rel="canonical" href="https://hotboxxsilchar.vercel.app/">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Open Graph / Twitter link previews -->
+    <meta property="og:type" content="restaurant">
+    <meta property="og:site_name" content="Hotboxx">
+    <meta property="og:title" content="Hotboxx Silchar | Biryani, BBQ &amp; Street Food at Rangirkhari Point">
+    <meta property="og:description" content="Smoked, fried and grilled street food at Rangirkhari Point, Silchar. Chicken biryani ₹120, combos from ₹129. Open daily from 2 PM. Order direct on WhatsApp.">
+    <meta property="og:url" content="https://hotboxxsilchar.vercel.app/">
+    <meta property="og:image" content="https://hotboxxsilchar.vercel.app/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Hotboxx Reshmi Kebab skewers from the grill, Silchar">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hotboxx Silchar | Biryani, BBQ &amp; Street Food at Rangirkhari Point">
+    <meta name="twitter:description" content="Smoked, fried and grilled street food at Rangirkhari Point, Silchar. Chicken biryani ₹120, combos from ₹129. Open daily from 2 PM. Order direct on WhatsApp.">
+    <meta name="twitter:image" content="https://hotboxxsilchar.vercel.app/images/og-image.jpg">
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Hotboxx",
+      "slogan": "Smoked. Fried. Certified.",
+      "url": "https://hotboxxsilchar.vercel.app/",
+      "image": "https://hotboxxsilchar.vercel.app/images/og-image.jpg",
+      "logo": "https://hotboxxsilchar.vercel.app/icon-512.png",
+      "telephone": "+91-8876520650",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rangirkhari Point",
+        "addressLocality": "Silchar",
+        "addressRegion": "Assam",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "14:00",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "14:00",
+          "closes": "23:30"
+        }
+      ],
+      "servesCuisine": ["Biryani", "BBQ", "Street Food", "Chinese", "North Indian"],
+      "priceRange": "₹",
+      "menu": "https://hotboxx-menu.vercel.app/",
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Hotboxx%2C%20Rangirkhari%20Point%2C%20Silchar%2C%20Assam",
+      "sameAs": ["https://www.instagram.com/hotboxx_silchar/", "https://www.facebook.com/HotboxxSilchar"]
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -276,6 +339,9 @@
 
         @media print { .no-print { display: none !important; } }
     </style>
+    <!-- Prebuilt Tailwind CSS (replaces the Play CDN). Loaded after the page styles to keep the same cascade.
+         Rebuild after adding new Tailwind classes: npx tailwindcss@3.4.17 -i tailwind.input.css --content index.html -o tailwind.min.css --minify -->
+    <link rel="stylesheet" href="tailwind.min.css">
 </head>
 <body>
     <div class="smoke-overlay no-print"></div>
@@ -381,6 +447,7 @@
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
                 <a href="#full-spread" class="btn-fire px-12 py-4 text-xl rounded-sm w-full md:w-auto">View Menu</a>
                 <button onclick="toggleCart()" class="border-2 border-white px-12 py-4 text-xl rounded-sm hover:bg-white hover:text-black transition-all w-full md:w-auto uppercase font-bold">Pickup Order</button>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Hotboxx%2C%20Rangirkhari%20Point%2C%20Silchar%2C%20Assam" target="_blank" rel="noopener" class="border-2 border-white px-12 py-4 text-xl rounded-sm hover:bg-white hover:text-black transition-all w-full md:w-auto uppercase font-bold">📍 Get Directions</a>
             </div>
             <div class="mt-6 flex items-center justify-center gap-4">
                 <div class="h-px w-12 bg-white/10"></div>
@@ -401,22 +468,22 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Deal 1: Summer Drinks 50% OFF — Direct Order Exclusive -->
-                <div class="deal-card deal-glow reveal" style="border-color:rgba(255,184,0,0.25);">
+                <!-- Deal 1: Pujo Drinks 50% OFF — Direct Order Exclusive -->
+                <div id="pujo-card" class="deal-card deal-glow reveal" style="border-color:rgba(255,184,0,0.25);">
                     <div class="flex items-center gap-3 mb-2">
-                        <span class="deal-badge" style="background:#1a6b3a;">☀️ SUMMER SPECIAL</span>
+                        <span class="deal-badge" style="background:#1a6b3a;">🪔 PUJO SPECIAL</span>
                     </div>
                     <div class="flex items-start justify-between gap-4 mb-3">
                         <h3 class="font-heading text-5xl text-white uppercase leading-none">ALL<br>DRINKS</h3>
                         <span class="shrink-0 mt-1 inline-block bg-[#25D366] text-black text-[8px] font-black uppercase tracking-[2px] px-2 py-1">DIRECT ONLY</span>
                     </div>
-                    <p class="text-white/50 text-sm leading-relaxed mb-6">Silchar summers are brutal. Every drink on the menu — half price when you order direct. Skip the apps, stay cool, save big.</p>
+                    <p class="text-white/50 text-sm leading-relaxed mb-6">Pandal hopping er majhe gola bhejao. Every drink on the menu, half price when you order direct. 16–21 October only.</p>
                     <div class="flex items-end justify-between border-t border-white/5 pt-4">
                         <div>
                             <p class="text-white/30 text-[10px] uppercase tracking-widest font-bold line-through">Full price on Swiggy / Zomato</p>
                             <p class="font-heading text-4xl text-[#FFB800]">50% OFF <span class="text-white/30 text-2xl">all drinks</span></p>
                         </div>
-                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-[#25D366] border border-[#25D366]/30 px-3 py-1">This Month</span>
+                        <span class="text-[9px] font-bold uppercase tracking-[2px] text-[#25D366] border border-[#25D366]/30 px-3 py-1">Pujo only</span>
                     </div>
                 </div>
 
@@ -449,7 +516,7 @@
                 <!-- Grill -->
                 <div class="food-card p-5 rounded-lg group reveal">
                     <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
-                        <img src="images/grill.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <picture class="contents"><source srcset="images/grill.webp" type="image/webp"><img src="images/grill.jpg" alt="Hotboxx Reshmi Kebab skewers from the grill with mint chutney, Silchar" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all"></picture>
                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-white font-bold px-3 py-1 text-xs rotate-12 shadow-xl tracking-tighter">BEST SELLER</div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">THE GRILL</h3>
@@ -458,7 +525,7 @@
                 <!-- Momos -->
                 <div class="food-card p-5 rounded-lg group reveal">
                     <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
-                        <img src="images/momos.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <picture class="contents"><source srcset="images/momos.webp" type="image/webp"><img src="images/momos.jpg" alt="Hotboxx chicken momos with red and green chutney, Silchar" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all"></picture>
                         <div class="absolute top-4 right-4 bg-[#FFB800] text-black font-bold px-3 py-1 text-xs -rotate-6 shadow-xl tracking-tighter">STREET FAV</div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">DUMPLINGS</h3>
@@ -467,7 +534,7 @@
                 <!-- Breads -->
                 <div class="food-card p-5 rounded-lg group reveal">
                     <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
-                        <img src="images/breads.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <picture class="contents"><source srcset="images/breads.webp" type="image/webp"><img src="images/breads.jpg" alt="Hotboxx butter garlic naan fresh from the tandoor, Silchar" width="1536" height="1024" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all"></picture>
                         <div class="absolute top-4 right-4 bg-[#FF4D00] text-white font-bold px-3 py-1 text-xs rotate-6 shadow-xl tracking-tighter">FRESH DAILY</div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">TANDOOR BREADS</h3>
@@ -476,7 +543,7 @@
                 <!-- Gravy -->
                 <div class="food-card p-5 rounded-lg group reveal">
                     <div class="overflow-hidden rounded-md mb-5 aspect-square bg-[#111] relative">
-                        <img src="images/gravy.jpg" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all">
+                        <picture class="contents"><source srcset="images/gravy.webp" type="image/webp"><img src="images/gravy.jpg" alt="Hotboxx Chicken Butter Masala curry, Silchar" width="1402" height="1122" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 duration-700 opacity-70 group-hover:opacity-100 transition-all"></picture>
                         <div class="absolute top-4 right-4 bg-[#D72600] text-white font-bold px-3 py-1 text-xs -rotate-12 shadow-xl tracking-tighter">PAIR WITH BREADS</div>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 uppercase tracking-tighter">GRAVY & CURRIES</h3>
@@ -701,7 +768,7 @@
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Hot Wings (6P) + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
                         <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
-                        <span class="text-white/10 text-xs font-bold tracking-widest italic">07</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">05</span>
                     </div>
                 </div>
                 <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Roll & Sip', 149)">
@@ -710,7 +777,7 @@
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Chicken Roll + French Fries + Drink</p>
                     <div class="flex items-end justify-between">
                         <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹149</span>
-                        <span class="text-white/10 text-xs font-bold tracking-widest italic">08</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">06</span>
                     </div>
                 </div>
                 <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Street Wok', 179)">
@@ -719,7 +786,7 @@
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Noodles + Chicken Manchurian (3P) + Drink</p>
                     <div class="flex items-end justify-between">
                         <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹179</span>
-                        <span class="text-white/10 text-xs font-bold tracking-widest italic">05</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">07</span>
                     </div>
                 </div>
                 <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Kosha Plate', 129)">
@@ -728,7 +795,7 @@
                     <p class="text-[10px] text-white/40 uppercase tracking-[2px] mb-8 min-h-[40px]">Veg Fried Rice + Chicken Kosha (2P) + Drink</p>
                     <div class="flex items-end justify-between">
                         <span class="text-5xl font-bold tracking-tighter text-[#FFB800]">₹129</span>
-                        <span class="text-white/10 text-xs font-bold tracking-widest italic">06</span>
+                        <span class="text-white/10 text-xs font-bold tracking-widest italic">08</span>
                     </div>
                 </div>
                 <div class="combo-grid-item border-r border-b border-white/10 reveal" onclick="addToCart('Combo: Turf & Turf', 179)">
@@ -901,6 +968,15 @@
                 <div class="space-y-4 text-[10px] font-bold uppercase tracking-widest">
                     <p>📍 Rangirkhari Point, Silchar</p>
                     <a href="tel:+918876520650" class="block text-white">📞 +91 88765 20650</a>
+                    <a href="https://hotboxx-menu.vercel.app" target="_blank" rel="noopener" class="block text-white/40 hover:text-white">📋 View digital menu</a>
+                </div>
+                <div class="flex gap-4 justify-center lg:justify-start">
+                    <a href="https://www.instagram.com/hotboxx_silchar/" target="_blank" rel="noopener" aria-label="Hotboxx on Instagram" class="h-10 w-10 flex items-center justify-center border border-white/10 text-white/60 hover:text-[#FF4D00] hover:border-[#FF4D00] transition-colors">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="https://www.facebook.com/HotboxxSilchar" target="_blank" rel="noopener" aria-label="Hotboxx on Facebook" class="h-10 w-10 flex items-center justify-center border border-white/10 text-white/60 hover:text-[#FF4D00] hover:border-[#FF4D00] transition-colors">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1 1-1h2.3V2.1L14.2 2C10.9 2 10 4.4 10 6.5v2H7.7v3.8H10V22h4v-9.7h3l.4-3.8H14z"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -909,12 +985,16 @@
         <div class="max-w-7xl mx-auto px-6 mt-16">
             <div class="border border-white/5 overflow-hidden" style="height: 280px;">
                 <iframe
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=92.7710%2C24.8240%2C92.8010%2C24.8440&layer=mapnik&marker=24.8340%2C92.7860"
+                    src="https://maps.google.com/maps?q=Hotboxx%2C%20Rangirkhari%20Point%2C%20Silchar%2C%20Assam&amp;z=16&amp;output=embed"
+                    title="Map: Hotboxx, Rangirkhari Point, Silchar"
                     width="100%" height="100%" style="border:0; filter: grayscale(1) brightness(0.45) contrast(1.3);"
-                    allowfullscreen="" loading="lazy">
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
             <p class="text-center text-white/20 text-[9px] uppercase tracking-[3px] font-bold mt-4">Rangirkhari Point, Silchar, Assam</p>
+            <div class="text-center mt-6">
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Hotboxx%2C%20Rangirkhari%20Point%2C%20Silchar%2C%20Assam" target="_blank" rel="noopener" class="btn-fire px-10 py-3 text-base rounded-sm">📍 Get Directions</a>
+            </div>
         </div>
     </footer>
 
@@ -1003,6 +1083,25 @@
             updateCartDisplay();
         }
 
+        // Current time as an IST (Asia/Kolkata) wall-clock Date — same conversion checkShopStatus() uses
+        function getIST() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utc + (3600000 * 5.5));
+        }
+
+        // Pujo deal ends after 11:59 PM, 21 Oct 2026 IST
+        const PUJO_DEAL_END = new Date(2026, 9, 21, 23, 59, 59, 999);
+        function isPujoDealLive() {
+            return getIST() <= PUJO_DEAL_END;
+        }
+
+        // Hide the Pujo card once the deal is over
+        function applyPujoDealVisibility() {
+            const card = document.getElementById('pujo-card');
+            if (card) card.style.display = isPujoDealLive() ? '' : 'none';
+        }
+
         const DRINK_ITEMS = new Set([
             'Mango Blast Soda', 'Lychee Twister', 'Blueberry Burst',
             'Virgin Mojito', 'Coffee', 'Lemon Tea', 'Tea'
@@ -1017,9 +1116,9 @@
             const { name, price, qty } = item;
             let freeQty = 0;
             let effectivePrice = price;
-            const isDrinkDeal = DRINK_ITEMS.has(name);
+            const isDrinkDeal = DRINK_ITEMS.has(name) && isPujoDealLive();
 
-            // Summer deal: 50% off all drinks (direct order exclusive)
+            // Pujo deal: 50% off all drinks (direct order exclusive), until PUJO_DEAL_END (IST)
             if (isDrinkDeal) {
                 effectivePrice = Math.round(price * 0.5);
             }
@@ -1062,7 +1161,7 @@
                     if (freeQty > 0) {
                         promoBadge = `<span style="color:#25D366;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🎉 ${freeQty} FREE</span>`;
                     } else if (isDrinkDeal) {
-                        promoBadge = `<span style="color:#FFB800;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">☀️ 50% OFF — SUMMER DEAL</span>`;
+                        promoBadge = `<span style="color:#FFB800;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">🪔 50% OFF — PUJO DEAL</span>`;
                     } else {
                         promoBadge = `<span style="color:rgba(255,255,255,0.3);font-size:11px;">₹${item.price} each</span>`;
                     }
@@ -1137,7 +1236,7 @@
                 const { freeQty, total: itemTotal, isDrinkDeal } = getPromo(item);
                 let promoNote = '';
                 if (freeQty > 0) promoNote = ` (${freeQty} FREE — DEAL OF THE MONTH)`;
-                else if (isDrinkDeal) promoNote = ` (50% OFF — Summer Deal)`;
+                else if (isDrinkDeal) promoNote = ` (50% OFF — Pujo Deal)`;
                 text += `• ${item.name} x${item.qty}${promoNote} — ₹${itemTotal}\n`;
             });
             if (hasButtaMasala()) {
@@ -1159,9 +1258,7 @@
             const dot   = statusBox.querySelector('span:first-child');
             const label = statusBox.querySelector('span:last-child');
 
-            const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const ist = new Date(utc + (3600000 * 5.5));
+            const ist = getIST();
 
             const hours   = ist.getHours();
             const mins    = ist.getMinutes();
@@ -1192,7 +1289,8 @@
         window.onload = () => {
             reveal();
             checkShopStatus();
-            setInterval(checkShopStatus, 60000);
+            applyPujoDealVisibility();
+            setInterval(() => { checkShopStatus(); applyPujoDealVisibility(); updateCartDisplay(); }, 60000);
             setOrderMode('pickup');
         };
     </script>
